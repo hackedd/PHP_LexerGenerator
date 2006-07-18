@@ -1,0 +1,46 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>PHP_LexerGenerator Manual</refname>
+  <refpurpose>Introduction to PHP_LexerGenerator</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <authorgroup>
+   <author>
+    Gregory Beaver
+    <authorblurb>
+     {@link mailto:cellog@php.net cellog@php.net}
+    </authorblurb>
+   </author>
+  </authorgroup>
+ </refsynopsisdiv>
+ <refsect1 id="{@id intro}">
+  <title>Using PHP_LexerGenerator</title>
+  <para>
+   PHP_LexerGenerator is a lexer generator for PHP 5.  Using PHP_LexerGenerator is
+   simple:
+  </para>
+  <para>
+   <programlisting role="php">
+    <![CDATA[
+<?php
+require_once 'PHP/LexerGenerator.php';
+$a = new PHP_LexerGenerator('/path/to/LexerSource.plex');
+?>
+    ]]>
+   </programlisting>
+  </para>
+  <para>
+   This will create a file named <literal>/path/to/LexerSource.php</literal>
+   containing the source code.
+  </para>
+  <para>
+   Information on the format of <literal>plex</literal> files is found in the
+   documentation for the {@link PHP_LexerGenerator} class.
+  </para>
+  <para>
+   Until accepted, the package can be installed with
+   <literal>pear install http://pear.chiaraquartet.net/PHP_LexerGenerator/PHP_LexerGenerator-0.2.1.tgz</literal>.
+   Direct download link here: {@link http://pear.chiaraquartet.net/PHP_LexerGenerator/PHP_LexerGenerator-0.2.1.tgz}
+  </para>
+ </refsect1>
+</refentry>

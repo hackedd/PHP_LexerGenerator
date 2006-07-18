@@ -1,0 +1,122 @@
+<?php
+class TestLexer
+{
+    private $data;
+    private $N;
+    public $token;
+    public $value;
+    private $line;
+    private $state = 1;
+
+    function __construct($data)
+    {
+        $this->data = $data;
+        $this->N = 0;
+        $this->line = 1;
+    }
+
+/*!lex2php
+%input $this->data
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+weirdo = /(test)\1{1,2}/ /(hi)\1/
+alpha = /[a-zA-Z]/
+alphaplus = /[a-zA-Z]+/
+number = /[0-9]/
+numerals = /([0-9])+/
+whitespace = /[ \t\n]+/
+blah = "$"
+blahblah = /a\$/
+COMPLEX = Z((@import\s+["'`]([\w:?=@&/#._;-]+)["'`];)|(:\s*url\s*\([\s"'`]*([\w:?=@&/#._;-]+)([\s"'`]*\))|<[^>]*\s+(src|href|url)\=[\s"'`]*([\w:?=@&/#._;-]+)[\s"'`]*[^>]*>))Z
+*/
+/*!lex2php
+%statename START
+COMPLEX {
+    echo "complex\n";
+    var_dump($this->value);
+    echo "    complex subpatterns: \n";
+    var_dump($yy_subpatterns);
+}
+"#" weirdo {
+    echo "weirdo\n";
+    var_dump($this->value);
+    echo "    weirdo subpatterns: \n";
+    var_dump($yy_subpatterns);
+}
+alpha "_" alphaplus numerals {
+    echo "rule 1\n";
+    var_dump($this->value);
+    echo "    rule 1 subpatterns: \n";
+    var_dump($yy_subpatterns);
+    $this->yypushstate(self::TWO);
+}
+alpha "_" alphaplus {
+    echo "rule 2\n";
+    var_dump($this->value);
+    echo "    rule 2 subpatterns: \n";
+    var_dump($yy_subpatterns);
+    $this->yybegin(self::THREE);
+}
+number number "." numerals {
+    echo "rule 3\n";
+    var_dump($this->value);
+    echo "    rule 3 subpatterns: \n";
+    var_dump($yy_subpatterns);
+}
+whitespace {
+    echo "whitespace\n";
+    echo "    whitespace subpatterns: \n";
+    var_dump($yy_subpatterns);
+    return false; // skip this token (do not return it)
+}
+blah {
+    echo "blah\n";
+    echo "    blah subpatterns: \n";
+    var_dump($yy_subpatterns);
+    var_dump($this->value);
+}
+blahblah {
+    echo "blahblah\n";
+    echo "    blahblah subpatterns: \n";
+    var_dump($yy_subpatterns);
+    var_dump($this->value);
+}
+*/
+/*!lex2php
+%statename TWO
+alpha alpha {
+    echo "alpha alpha (state TWO)\n";
+    var_dump($this->value);
+    $this->yypopstate();
+}
+*/
+/*!lex2php
+%statename THREE
+"$" number {
+    echo "number (state THREE)\n";
+    $this->yybegin(self::START);
+}
+*/
+}
+
+$a = new TestLexer('a_AB1yk $09.1 a$B_b$1 #testtesthihi <a href="http://www.example.com/s/style.css">');
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);
+$a->yylex();
+var_dump('advance: ' . $a->value);

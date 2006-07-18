@@ -1,0 +1,304 @@
+<?php
+//require_once 'File/ChessPGN/Parser.php';
+require_once dirname(__FILE__) . '/Parser.php';
+
+class File_ChessPGN_Lexer
+{
+    const TAGOPEN = File_ChessPGN_Parser::TAGOPEN; // [
+    const TAGNAME = File_ChessPGN_Parser::TAGNAME; // ]
+    const TAGCLOSE = File_ChessPGN_Parser::TAGCLOSE; // ]
+    const STRING = File_ChessPGN_Parser::STRING; // ]
+    const NAG = File_ChessPGN_Parser::NAG; // $1 $2, etc.
+    const GAMEEND = File_ChessPGN_Parser::GAMEEND; // * 1-0 0-1
+    const PAWNMOVE = File_ChessPGN_Parser::PAWNMOVE; // e4, e8=Q, exd8=R
+    const PIECEMOVE = File_ChessPGN_Parser::PIECEMOVE; // Nf2, Nab2, N3d5, Qxe4, Qexe4, Q3xe4
+    const PLACEMENTMOVE = File_ChessPGN_Parser::PLACEMENTMOVE; // N@f2, P@d5
+    const CHECK = File_ChessPGN_Parser::CHECK; // +
+    const MATE = File_ChessPGN_Parser::MATE; // #
+    const DIGIT = File_ChessPGN_Parser::DIGIT; // 0-9
+    const MOVEANNOT = File_ChessPGN_Parser::MOVEANNOT; // ! ? !! ?? !? ?!
+    const RAVOPEN = File_ChessPGN_Parser::RAVOPEN; // (
+    const RAVCLOSE = File_ChessPGN_Parser::RAVCLOSE; // )
+    const PERIOD = File_ChessPGN_Parser::PERIOD; // .
+    const COMMENTOPEN = File_ChessPGN_Parser::COMMENTOPEN; // {
+    const COMMENTCLOSE = File_ChessPGN_Parser::COMMENTCLOSE; // }
+    const COMMENT = File_ChessPGN_Parser::COMMENT; // anything
+    const CASTLE = File_ChessPGN_Parser::CASTLE; // O-O O-O-O
+
+    private $input;
+    private $N;
+    public $token;
+    public $value;
+    public $line;
+    private $_string;
+    private $debug = 0;
+    
+    function __construct($data)
+    {
+        $this->input = str_replace("\r\n", "\n", $data);
+        $this->N = 0;
+    }
+
+/*!lex2php
+%input $this->input
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+ESCAPEDTHING = @"|\\@
+ANYTHINGELSE = /./
+PERIOD = "."
+ASTERISK = "*"
+TAGOPEN = "["
+TAGCLOSE = "]"
+TAGCONTENTS = @[^\]" ]+@
+RAVOPEN = "("
+RAVCLOSE = ")"
+COMMENTOPEN = "{"
+COMMENTCLOSE = "}"
+RESERVEOPEN = "<"
+RESERVECLOSE = ">"
+NAG = /\$[0-9]+/
+WHITEWINS = "1-0"
+BLACKWINS = "0-1"
+DRAW = "1/2-1/2"
+GAMEEND = @(?:1\-0|0\-1|1/2\-1/2)@
+CHECK = "+"
+MATE = "#"
+PROMOTE = "="
+RANK = /[a-h]/
+DIGIT = /[0-9]{1,3}/
+MOVEANNOT = /!|\?|!!|\?\?|!\?|\?!/
+PIECE = /Q|K|R|B|N/
+TAKES = "x"
+WHITESPACE = /[ \n\t]+/
+KINGCASTLE = "O-O"
+QUEENCASTLE = "O-O-O"
+CASTLE = /O\-O\-O|O\-O/
+PAWNMOVE = /P?[a-h](?:[2-7]|[18]\=(?:Q|R|B|N))|P?[a-h]x[a-h](?:[2-7]|[18]\=(?:Q|R|B|N))/
+PIECEMOVE = /(?:Q|K|R|B|N)(?:[a-h]|[1-8])?[a-h][1-8]|(?:Q|K|R|B|N)(?:[a-h]|[1-8])?x[a-h][1-8]/
+PLACEMENTMOVE = /(?:P|K|Q|R|B|N)@[a-h][1-8]/
+COMMENTCONTENTS = /[^}]+/
+STRINGCONTENTS = /[^\["\\]+/
+*/
+/*!lex2php
+%statename YYINITIAL
+TAGOPEN {
+    if ($this->debug) echo 'new tag ['.$this->value."]\n";
+    $this->token = self::TAGOPEN;
+    $this->yybegin(self::INTAG);
+}
+RAVOPEN {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo '->found rav ['.$this->value."]\n";
+    $this->token = self::RAVOPEN;
+}
+GAMEEND {
+    // end of game
+    if ($this->debug) echo 'found game end ['.$this->value."]\n";
+    $this->token = self::GAMEEND;
+}
+DIGIT {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo '->found digit ['.$this->value."]\n";
+    $this->token = self::DIGIT;
+}
+PAWNMOVE {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo '->found pawn move ['.$this->value."]\n";
+    $this->token = self::PAWNMOVE;
+}
+PIECEMOVE {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo '->found piece move ['.$this->value."]\n";
+    $this->token = self::PIECEMOVE;
+}
+PLACEMENTMOVE {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo '->found placement move ['.$this->value."]\n";
+    $this->token = self::PLACEMENTMOVE;
+}
+COMMENTOPEN {
+    if ($this->debug) echo 'new comment ['.$this->value."]\n";
+    $this->yypushstate(self::INCOMMENT);
+    $this->token = self::COMMENTOPEN;
+}
+CASTLE {
+    $this->yybegin(self::INMOVES);
+    if ($this->debug) echo 'found castle move ['.$this->value."]\n";
+    $this->token = self::CASTLE;
+}
+WHITESPACE {
+    // cycle to next token
+    return false;
+}
+*/
+/*!lex2php
+%statename INMOVES
+RAVOPEN {
+    if ($this->debug) echo '->found rav ['.$this->value."]\n";
+    $this->token = self::RAVOPEN;
+}
+GAMEEND {
+    // end of game
+    $this->yybegin(self::YYINITIAL);
+    if ($this->debug) echo 'found game end ['.$this->value."]\n";
+    $this->token = self::GAMEEND;
+}
+DIGIT {
+    if ($this->debug) echo '->found digit ['.$this->value."]\n";
+    $this->token = self::DIGIT;
+}
+PAWNMOVE {
+    if ($this->debug) echo '->found pawn move ['.$this->value."]\n";
+    $this->token = self::PAWNMOVE;
+}
+PIECEMOVE {
+    if ($this->debug) echo '->found piece move ['.$this->value."]\n";
+    $this->token = self::PIECEMOVE;
+}
+PLACEMENTMOVE {
+    if ($this->debug) echo '->found placement move ['.$this->value."]\n";
+    $this->token = self::PLACEMENTMOVE;
+}
+COMMENTOPEN {
+    if ($this->debug) echo 'new comment ['.$this->value."]\n";
+    $this->yypushstate(self::INCOMMENT);
+    $this->token = self::COMMENTOPEN;
+}
+CASTLE {
+    if ($this->debug) echo 'found castle move ['.$this->value."]\n";
+    $this->token = self::CASTLE;
+}
+WHITESPACE {
+    // cycle to next token
+    return false;
+}
+NAG {
+    if ($this->debug) echo 'found numeric annotation glyph ['.$this->value."]\n";
+    $this->token = self::NAG;
+}
+
+ASTERISK {
+    // end of game
+    $this->yybegin(self::YYINITIAL);
+    if ($this->debug) echo 'found unfinished game indicator ['.$this->value."]\n";
+    $this->token = self::GAMEEND;
+}
+
+PERIOD {
+    if ($this->debug) echo 'found period ['.$this->value."]\n";
+    $this->token = self::PERIOD;
+}
+
+CHECK {
+    if ($this->debug) echo 'found check ['.$this->value."]\n";
+    $this->token = self::CHECK;
+}
+
+MATE {
+    if ($this->debug) echo 'found mate ['.$this->value."]\n";
+    $this->token = self::MATE;
+}
+
+MOVEANNOT {
+    if ($this->debug) echo 'found move annotation ['.$this->value."]\n";
+    $this->token = self::MOVEANNOT;
+}
+
+RAVCLOSE {
+    if ($this->debug) echo 'found recursive annotation variation close ['.$this->value."]\n";
+    $this->token = self::RAVCLOSE;
+}
+*/
+/*!lex2php
+%statename INTAG
+"\"" {
+    if ($this->debug) echo "starting string\n";
+    $this->yybegin(self::INSTRING);
+    $this->_string = '';
+    $this->N++;
+    return true; // cycle to next state
+}
+
+TAGCLOSE {
+    if ($this->debug) echo "ending tag [".$this->value."]\n";
+    $this->yybegin(self::YYINITIAL);
+    $this->token = self::TAGCLOSE;
+}
+
+TAGCONTENTS {
+    if ($this->debug) echo 'tag contents ['.$this->value."]\n";
+    $this->token = self::TAGNAME;
+}
+
+" " {
+    // skip token
+    return false;
+}
+*/
+/*!lex2php
+%statename INSTRING
+"\\" {
+    if ($this->debug) echo "string escape [\\]\n";
+    $this->yybegin(self::INESCAPE);
+    return true;
+}
+
+"\"" {
+    if ($this->debug) echo "returning string [$this->_string]\n";
+    $this->yybegin(self::INTAG);
+    $this->value = $this->_string;
+    $this->token = self::STRING;
+    $this->N -= strlen($this->_string) - 1; // make sure the counter is right
+    $this->_string = '';
+}
+
+STRINGCONTENTS {
+    if ($this->debug) echo "added to string [".$this->value."]\n";
+    $this->_string .= $this->value;
+    return false;
+}
+*/
+/*!lex2php
+%statename INESCAPE
+ESCAPEDTHING {
+    if ($this->debug) echo "escape [".$this->value."]\n";
+    $this->yybegin(self::INSTRING);
+    $this->_string .= $this->value;
+    break;
+}
+
+ANYTHINGELSE {
+    if ($this->debug) echo "non-escape [".$this->value."]\n";
+    $this->yybegin(self::INSTRING);
+    $this->_string .= $this->value;
+    return false;
+}
+*/
+/*!lex2php
+%statename INCOMMENT
+"}" {
+    if ($this->debug) echo 'close comment ['.$this->value."]\n";
+    $this->yypopstate();
+    $this->token = self::COMMENTCLOSE;
+}
+COMMENTCONTENTS {
+    if ($this->debug) echo 'comment contents ['.$this->value."]\n";
+    $this->token = self::COMMENT;
+}
+*/
+    /**
+     * return something useful, when a parse error occurs.
+     *
+     * used to build error messages if the parser fails, and needs to know the line number..
+     *
+     * @return   string 
+     * @access   public 
+     */
+    function parseError() 
+    {
+        return "Error at line {$this->yyline}";
+        
+    }
+}

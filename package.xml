@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PHP_LexerGenerator</name>
+ <channel>pear.php.net</channel>
+ <summary>translate lexer files in lex2php format into a PHP 5 lexer</summary>
+ <description>
+  Translate a lexer file with a format similar to re2c (http://re2c.org)
+  into a PHP 5 lexer for use with a parser.
+  
+  Unlike re2c (as of re2c version 0.11), generated lexers are state-aware
+  out of the box.
+  
+  Generated lexers are very efficient, more than twice as efficient as other
+  alternatives like csLex (written in C#) because they utilize PHP's
+  built-in Perl-compatible regular expressions to lex for tokens.
+ </description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2006-07-01</date>
+ <version>
+  <release>0.2.1</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>
+  - allow underscore in subpattern names
+  - fix documentation for class
+  - fix bug in regex parsing where backreferences could not have a multiplier
+    like +, *, or {0,1}
+  - disallow (?R), this can't work in a multi-regex lexer generator, unfortunately
+ </notes>
+ <contents>
+  <dir baseinstalldir="PHP" name="/">
+   <dir name="examples">
+    <file name="TestLexer.php" role="doc"/>
+    <file name="TestLexer.plex" role="doc"/>
+   </dir>
+   <dir name="LexerGenerator">
+    <dir name="Regex">
+     <file name="Lexer.php" role="php"/>
+     <file name="Parser.php" role="php"/>
+    </dir>
+    <file name="cli.php" role="php"/>
+    <file name="Exception.php" role="php"/>
+    <file name="Lexer.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Parser.out" role="data"/>
+    <file name="Parser.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Parser.y" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+   </dir> <!-- /LexerGenerator -->
+   <file name="LexerGenerator.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file name="LICENSE.txt" role="doc"/>
+   <file name="plex" role="script" baseinstalldir="">
+    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
+    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
+    <tasks:unixeol/>
+   </file>
+   <file name="plex.bat" role="script" baseinstalldir="">
+    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
+    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
+    <tasks:windowseol/>
+   </file>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-06-24</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+   <notes>initial release</notes>
+  </release>
+ </changelog>
+ <changelog>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-06-30</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - add &quot;plex&quot; command-line for lexer generation
+  - add regex validation
+    * it's now possible to use lookaheads, back-references, and subpatterns.
+  - use PEAR_Exception
+   </notes>
+  </release>
+ </changelog>
+ <changelog>
+  <release>
+   <version>
+    <release>0.2.1</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-07-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - allow underscore in subpattern names
+  - fix documentation for class
+  - fix bug in regex parsing where backreferences could not have a multiplier
+    like +, *, or {0,1}
+  - disallow (?R), this can't work in a multi-regex lexer generator, unfortunately
+   </notes>
+  </release>
+ </changelog>
+</package>
