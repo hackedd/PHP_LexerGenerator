@@ -20,7 +20,7 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-07-01</date>
+ <date>2006-07-18</date>
  <version>
   <release>0.2.1</release>
   <api>0.1.0</api>
@@ -133,7 +133,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-07-01</date>
+   <date>2006-07-18</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
   - allow underscore in subpattern names
