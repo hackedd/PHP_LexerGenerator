@@ -22,7 +22,7 @@
  </lead>
  <date>2006-07-18</date>
  <version>
-  <release>0.2.1</release>
+  <release>0.2.2</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -31,11 +31,8 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - allow underscore in subpattern names
-  - fix documentation for class
-  - fix bug in regex parsing where backreferences could not have a multiplier
-    like +, *, or {0,1}
-  - disallow (?R), this can't work in a multi-regex lexer generator, unfortunately
+  - fix Bug #8259: Strange regex generated
+  - fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -75,6 +72,10 @@
     <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
     <tasks:windowseol/>
    </file>
+   <dir name="tests">
+    <file name="bug8259.plex" role="test" />
+    <file name="bug8259.php" role="test" />
+   </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -102,8 +103,6 @@
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
    <notes>initial release</notes>
   </release>
- </changelog>
- <changelog>
   <release>
    <version>
     <release>0.2.0</release>
@@ -122,8 +121,6 @@
   - use PEAR_Exception
    </notes>
   </release>
- </changelog>
- <changelog>
   <release>
    <version>
     <release>0.2.1</release>
@@ -141,6 +138,22 @@
   - fix bug in regex parsing where backreferences could not have a multiplier
     like +, *, or {0,1}
   - disallow (?R), this can't work in a multi-regex lexer generator, unfortunately
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.2</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-08-13</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #8259: Strange regex generated
+  - fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
    </notes>
   </release>
  </changelog>

@@ -316,7 +316,7 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
     } // end function
 
 ');
-        if ($statename) {
+        if (is_string($statename)) {
             fwrite($this->out, '
     const ' . $statename . ' = ' . $ruleindex . ';
 ');
@@ -1419,10 +1419,10 @@ static public $yy_action = array(
     $this->yystack[$this->yyidx + -1]->minor = $this->yystack[$this->yyidx + -1]->minor[0];
     $this->yystack[$this->yyidx + -1]->minor = $this->_validatePattern($this->yystack[$this->yyidx + -1]->minor);
     $this->_patternIndex += $this->yystack[$this->yyidx + -1]->minor['subpatterns'] + 1;
-    if (@preg_match('/' . str_replace('/', '\\', $this->yystack[$this->yyidx + -1]->minor['pattern']) . '/', '')) {
+    if (@preg_match('/' . str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor['pattern']) . '/', '')) {
         $this->error('Rule "' . $name . '" can match the empty string, this will break lexing');
     }
-    $this->_retvalue = array(array('pattern' => str_replace('/', '\\', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']));
+    $this->_retvalue = array(array('pattern' => str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']));
     }
 #line 1433 "Parser.php"
 #line 553 "Parser.y"
@@ -1432,10 +1432,10 @@ static public $yy_action = array(
     $this->yystack[$this->yyidx + -1]->minor = $this->yystack[$this->yyidx + -1]->minor[0];
     $this->yystack[$this->yyidx + -1]->minor = $this->_validatePattern($this->yystack[$this->yyidx + -1]->minor);
     $this->_patternIndex += $this->yystack[$this->yyidx + -1]->minor['subpatterns'] + 1;
-    if (@preg_match('/' . str_replace('/', '\\', $this->yystack[$this->yyidx + -1]->minor['pattern']) . '/', '')) {
+    if (@preg_match('/' . str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor['pattern']) . '/', '')) {
         $this->error('Rule "' . $name . '" can match the empty string, this will break lexing');
     }
-    $this->_retvalue[] = array('pattern' => str_replace('/', '\\', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']);
+    $this->_retvalue[] = array('pattern' => str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']);
     }
 #line 1446 "Parser.php"
 #line 565 "Parser.y"

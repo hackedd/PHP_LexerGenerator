@@ -1,0 +1,15 @@
+<?php
+class blah {
+/*!lex2php
+%input $this->data
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+variable = @/?:([a-zA-Z0-9_]+)/?@
+*/
+/*!lex2php
+variable {$a = 1;}
+*/
+}
+?>

@@ -225,7 +225,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
     } // end function
 
 ');
-        if ($statename) {
+        if (is_string($statename)) {
             fwrite($this->out, '
     const ' . $statename . ' = ' . $ruleindex . ';
 ');
@@ -545,10 +545,10 @@ rule(A) ::= rule_subpattern(B) CODE(C). {
     B = B[0];
     B = $this->_validatePattern(B);
     $this->_patternIndex += B['subpatterns'] + 1;
-    if (@preg_match('/' . str_replace('/', '\\', B['pattern']) . '/', '')) {
+    if (@preg_match('/' . str_replace('/', '\\/', B['pattern']) . '/', '')) {
         $this->error('Rule "' . $name . '" can match the empty string, this will break lexing');
     }
-    A = array(array('pattern' => str_replace('/', '\\', B->string), 'code' => C, 'subpatterns' => B['subpatterns']));
+    A = array(array('pattern' => str_replace('/', '\\/', B->string), 'code' => C, 'subpatterns' => B['subpatterns']));
 }
 rule(A) ::= rule(R) rule_subpattern(B) CODE(C).{
     A = R;
@@ -556,10 +556,10 @@ rule(A) ::= rule(R) rule_subpattern(B) CODE(C).{
     B = B[0];
     B = $this->_validatePattern(B);
     $this->_patternIndex += B['subpatterns'] + 1;
-    if (@preg_match('/' . str_replace('/', '\\', B['pattern']) . '/', '')) {
+    if (@preg_match('/' . str_replace('/', '\\/', B['pattern']) . '/', '')) {
         $this->error('Rule "' . $name . '" can match the empty string, this will break lexing');
     }
-    A[] = array('pattern' => str_replace('/', '\\', B->string), 'code' => C, 'subpatterns' => B['subpatterns']);
+    A[] = array('pattern' => str_replace('/', '\\/', B->string), 'code' => C, 'subpatterns' => B['subpatterns']);
 }
 
 rule_subpattern(A) ::= QUOTE(B). {
