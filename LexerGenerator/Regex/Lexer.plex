@@ -62,7 +62,7 @@ MULTIPLIER = /[*?+]|\{[0-9]+\}|\{[0-9]+,\}|\{[0-9]+,[0-9]+\}/
 STRINGCHAR = /\\[frnt]|\\x[0-9a-fA-F][0-9a-fA-F]?|\\[0-7][0-7][0-7]|\\x\{[0-9a-fA-F]+\}/
 CONTROLCHAR = /\\[abBGcedDsSwW0C]/
 COULDBEBACKREF = /\\[0-9][0-9]/
-CHARCLASSCONTROLCHAR = /\\[bacedDsSwW0C]|\\x\{[0-9a-fA-F]+\}/
+CHARCLASSCONTROLCHAR = /\\[bacedDsSwW0C]|\\x\{[0-9a-fA-F]+\}|\\[0-7][0-7][0-7]/
 SUBJECTEND = /\\[zZ]/
 BACKREF = /\\[1-9]/
 UNICODESTUFF = /\\p\{\^?..?\}|\\P\{..?\}|\\X/
@@ -92,11 +92,11 @@ ESCAPEDTHING {
 "|" {
     $this->token = self::BAR;
 }
-COULDBEBACKREF {
-    $this->token = self::COULDBEBACKREF;
-}
 STRINGCHAR {
     $this->token = self::TEXT;
+}
+COULDBEBACKREF {
+    $this->token = self::COULDBEBACKREF;
 }
 CONTROLCHAR {
     $this->token = self::CONTROLCHAR;
@@ -172,6 +172,12 @@ ANYTHING {
     $this->yybegin(self::INITIAL);
     $this->token = self::CLOSECHARCLASS;
 }
+STRINGCHAR {
+    $this->token = self::TEXT;
+}
+CHARCLASSCONTROLCHAR {
+    $this->token = self::CONTROLCHAR;
+}
 COULDBEBACKREF {
     $this->token = self::COULDBEBACKREF;
 }
@@ -179,12 +185,6 @@ BACKREF {
     $this->token = self::BACKREFERENCE;
 }
 ESCAPEDCHARCLASSTHING {
-    $this->token = self::CONTROLCHAR;
-}
-STRINGCHAR {
-    $this->token = self::TEXT;
-}
-CHARCLASSCONTROLCHAR {
     $this->token = self::CONTROLCHAR;
 }
 HYPHEN {
@@ -210,15 +210,15 @@ ANYTHING {
     $this->token = self::TEXT;
     $this->yybegin(self::CHARACTERCLASS);
 }
+CHARCLASSCONTROLCHAR {
+    $this->token = self::CONTROLCHAR;
+    $this->yybegin(self::CHARACTERCLASS);
+}
 COULDBEBACKREF {
     $this->token = self::COULDBEBACKREF;
 }
 BACKREF {
     $this->token = self::BACKREFERENCE;
-}
-CHARCLASSCONTROLCHAR {
-    $this->token = self::CONTROLCHAR;
-    $this->yybegin(self::CHARACTERCLASS);
 }
 NONESCAPECHARCLASS {
     $this->token = self::TEXT;

@@ -1,0 +1,23 @@
+<?php
+class blah {
+/*!lex2php
+%input $this->data
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+NULL_A = /\000/
+NULL_B = /\x00/
+TEST = /(hi)\01/
+TEST_A = /(hi)(hi)(hi)(hi)(hi)(hi)(hi)(hi)(hi)(hi)\10/
+TEST_B = /\000-\007/
+*/
+/*!lex2php
+NULL_A {$a = 1;}
+NULL_B {$a = 2;}
+TEST {$a = 3;}
+TEST_A {$a = 4;}
+TEST_B {$a = 5;}
+*/
+}
+?>

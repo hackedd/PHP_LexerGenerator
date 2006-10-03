@@ -20,9 +20,9 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-07-18</date>
+ <date>2006-10-02</date>
  <version>
-  <release>0.2.2</release>
+  <release>0.2.3</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -31,8 +31,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - fix Bug #8259: Strange regex generated
-  - fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
+  - fix Bug #8618: null causes regex to break
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -154,6 +153,21 @@
    <notes>
   - fix Bug #8259: Strange regex generated
   - fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.3</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-10-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #8618: null causes regex to break
    </notes>
   </release>
  </changelog>
