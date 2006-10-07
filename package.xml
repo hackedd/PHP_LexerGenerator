@@ -62,13 +62,13 @@
    </file>
    <file name="LICENSE.txt" role="doc"/>
    <file name="plex" role="script" baseinstalldir="">
-    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
-    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
     <tasks:unixeol/>
    </file>
    <file name="plex.bat" role="script" baseinstalldir="">
-    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
-    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
     <tasks:windowseol/>
    </file>
    <dir name="tests">
