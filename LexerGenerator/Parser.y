@@ -88,6 +88,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
     private $token;
     private $value;
     private $line;
+    private $matchlongest;
     private $_regexLexer;
     private $_regexParser;
     private $_patternIndex = 0;
@@ -114,15 +115,116 @@ require_once 'PHP/LexerGenerator/Exception.php';
         $this->_regexParser = new PHP_LexerGenerator_Regex_Parser($this->_regexLexer);
     }
 
-    function outputRules($rules, $statename)
+    function doLongestMatch($rules, $statename, $ruleindex)
     {
-        static $ruleindex = 1;
+    	fwrite($this->out, '
+    	do {
+	    	$rules = array(');
+    	foreach ($rules as $rule) {
+			fwrite($this->out, '
+    			\'/^' . $rule['pattern'] . '/\',');
+    	}
+    	fwrite($this->out, '
+	    	);
+	    	$match = false;
+	    	foreach ($rules as $index => $rule) {
+	    		if (preg_match($rule, substr(' . $this->input . ', ' .
+	             $this->counter . '), $yymatches)) {
+	            	if ($match) {
+	            	    if (strlen($yymatches[0]) > strlen($match[0][0])) {
+	            	    	$match = array($yymatches, $index); // matches, token
+	            	    }
+	            	} else {
+	            		$match = array($yymatches, $index);
+	            	}
+	            }
+	    	}
+	    	if (!$match) {
+	            throw new Exception(\'Unexpected input at line\' . ' . $this->line . ' .
+	                \': \' . ' . $this->input . '[' . $this->counter . ']);
+	    	}
+	    	' . $this->token . ' = $match[1];
+	    	' . $this->value . ' = $match[0][0];
+	    	$yysubmatches = $match[0];
+	    	array_shift($yysubmatches);
+	    	if (!$yysubmatches) {
+	    		$yysubmatches = array();
+	    	}
+	        $r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}($yysubmatches);
+	        if ($r === null) {
+	            ' . $this->counter . ' += strlen($this->value);
+	            ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	            // accept this token
+	            return true;
+	        } elseif ($r === true) {
+	            // we have changed state
+	            // process this token in the new state
+	            return $this->yylex();
+	        } elseif ($r === false) {
+	            ' . $this->counter . ' += strlen($this->value);
+	            ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	            if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
+	                return false; // end of input
+	            }
+	            // skip this token
+	            continue;
+	        } else {');
+	        fwrite($this->out, '
+	            $yy_yymore_patterns = array_slice($rules, $this->token, true);
+	            // yymore is needed
+	            do {
+	                if (!isset($yy_yymore_patterns[' . $this->token . '])) {
+	                    throw new Exception(\'cannot do yymore for the last token\');
+	                }
+			    	$match = false;
+	                foreach ($yy_yymore_patterns[' . $this->token . '] as $index => $rule) {
+	                	if (preg_match($rule,
+	                      	  substr(' . $this->input . ', ' . $this->counter . '), $yymatches)) {
+	                    	$yymatches = array_filter($yymatches, \'strlen\'); // remove empty sub-patterns
+			            	if ($match) {
+			            	    if (strlen($yymatches[0]) > strlen($match[0][0])) {
+			            	    	$match = array($yymatches, $index); // matches, token
+			            	    }
+			            	} else {
+			            		$match = array($yymatches, $index);
+			            	}
+			            }
+			    	}
+			    	if (!$match) {
+			            throw new Exception(\'Unexpected input at line\' . ' . $this->line . ' .
+			                \': \' . ' . $this->input . '[' . $this->counter . ']);
+			    	}
+			    	' . $this->token . ' = $match[1];
+			    	' . $this->value . ' = $match[0][0];
+			    	$yysubmatches = $match[0];
+			    	array_shift($yysubmatches);
+			    	if (!$yysubmatches) {
+			    		$yysubmatches = array();
+			    	}
+	                ' . $this->line . ' = substr_count("\n", ' . $this->value . ');
+	                $r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}();
+	            } while ($r !== null || !$r);
+		        if ($r === true) {
+		            // we have changed state
+		            // process this token in the new state
+		            return $this->yylex();
+		        } else {
+	                // accept
+	                ' . $this->counter . ' += strlen($this->value);
+	                ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	                return true;
+		        }
+	        }
+        } while (true);
+');
+    }
+
+    function doFirstMatch($rules, $statename, $ruleindex)
+    {
         $patterns = array();
         $pattern = '/';
         $ruleMap = array();
         $tokenindex = array();
-        $i = 0;
-        $actualindex = 1;
         foreach ($rules as $rule) {
             $ruleMap[$i++] = $actualindex;
             $tokenindex[$actualindex] = $rule['subpatterns'];
@@ -135,12 +237,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
         $tokenindex = implode("\n            ", $tokenindex);
         $pattern .= implode('|', $patterns);
         $pattern .= '/';
-        if (!$statename) {
-            $statename = $ruleindex;
-        }
         fwrite($this->out, '
-    function yylex' . $ruleindex . '()
-    {
         $tokenMap = ' . $tokenindex . ';
         if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
             return false; // end of input
@@ -210,11 +307,18 @@ require_once 'PHP/LexerGenerator/Exception.php';
                             ' . $this->value . ' = current($yymatches); // token value
                             ' . $this->line . ' = substr_count("\n", ' . $this->value . ');
                         }
-                    } while ($this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}() !== null);
-                    // accept
-                    ' . $this->counter . ' += strlen($this->value);
-                    ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
-                    return true;
+                    	$r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    ' . $this->counter . ' += strlen($this->value);
+	                    ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception(\'Unexpected input at line\' . ' . $this->line . ' .
@@ -222,6 +326,26 @@ require_once 'PHP/LexerGenerator/Exception.php';
             }
             break;
         } while (true);
+');
+    }
+
+    function outputRules($rules, $statename)
+    {
+        static $ruleindex = 1;
+        $i = 0;
+        $actualindex = 1;
+        if (!$statename) {
+            $statename = $ruleindex;
+        }
+        fwrite($this->out, '
+    function yylex' . $ruleindex . '()
+    {');
+        if ($this->matchlongest) {
+        	$this->doLongestMatch($rules, $statename, $ruleindex);
+        } else {
+        	$this->doFirstMatch($rules, $statename, $ruleindex);
+        }
+        fwrite($this->out, '
     } // end function
 
 ');
@@ -231,7 +355,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 ');
         }
         foreach ($rules as $i => $rule) {
-            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $ruleMap[$i] . '($yy_subpatterns)
+            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $i . '($yy_subpatterns)
     {
 ' . $rule['code'] .
 '    }
@@ -444,10 +568,14 @@ declarations(A) ::= processing_instructions(B) pattern_declarations(C). {
         'token' => true,
         'value' => true,
         'line' => true,
+        'matchlongest' => true,
     );
     foreach (B as $pi) {
         if (isset($expected[$pi['pi']])) {
             $this->{$pi['pi']} = $pi['definition'];
+            if ($pi['pi'] == 'matchlongest') {
+                $this->matchlongest = true;
+            }
             continue;
         }
         $this->error('Unknown processing instruction %' . $pi['pi'] .

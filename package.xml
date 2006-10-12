@@ -13,6 +13,11 @@
   Generated lexers are very efficient, more than twice as efficient as other
   alternatives like csLex (written in C#) because they utilize PHP's
   built-in Perl-compatible regular expressions to lex for tokens.
+
+  Now in version 0.3.0+, with processing instruction %longestmatch, generated
+  lexers will always pick the longest string to match, rather than the first.
+  Generated lexers are slightly slower, but match behavior of legacy lexers like
+  flex, lex, re2c.
  </description>
  <lead>
   <name>Greg Beaver</name>
@@ -20,10 +25,10 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-10-02</date>
+ <date>2006-10-12</date>
  <version>
-  <release>0.2.3</release>
-  <api>0.1.0</api>
+  <release>0.3.0</release>
+  <api>0.3.0</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -31,7 +36,9 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - fix Bug #8618: null causes regex to break
+  - fix Bug #9006: wrong replacements for plex script (Hartmut Holzgraefe)
+  - fix Bug #9007: yymore does not honor return value &quot;true&quot; to change state
+  - implement Request #8879: lexer not picking longest match
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -168,6 +175,23 @@
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
   - fix Bug #8618: null causes regex to break
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-10-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #9006: wrong replacements for plex script (Hartmut Holzgraefe)
+  - fix Bug #9007: yymore does not honor return value &quot;true&quot; to change state
+  - implement Request #8879: lexer not picking longest match
    </notes>
   </release>
  </changelog>
