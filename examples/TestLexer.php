@@ -57,7 +57,7 @@ class TestLexer
         if ($this->N >= strlen($this->data)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(((@import\\s+[\"'`]([\\w:?=@&\#._;-]+)[\"'`];)|(:\\s*url\\s*\\([\\s\"'`]*([\\w:?=@&\#._;-]+)([\\s\"'`]*\\))|<[^>]*\\s+(src|href|url)=[\\s\"'`]*([\\w:?=@&\#._;-]+)[\\s\"'`]*[^>]*>)))|^(#(test)\\11{1,2}(hi)\\12)|^([a-zA-Z]_[a-zA-Z]+([0-9])+)|^([a-zA-Z]_[a-zA-Z]+)|^([0-9][0-9]\\.([0-9])+)|^([ \t\n]+)|^(\\$)|^(a\\$)/";
+        $yy_global_pattern = "/^(((@import\\s+[\"'`]([\\w:?=@&\/#._;-]+)[\"'`];)|(:\\s*url\\s*\\([\\s\"'`]*([\\w:?=@&\/#._;-]+)([\\s\"'`]*\\))|<[^>]*\\s+(src|href|url)=[\\s\"'`]*([\\w:?=@&\/#._;-]+)[\\s\"'`]*[^>]*>)))|^(#(test)\\11{1,2}(hi)\\12)|^([a-zA-Z]_[a-zA-Z]+([0-9])+)|^([a-zA-Z]_[a-zA-Z]+)|^([0-9][0-9]\\.([0-9])+)|^([ \t\n]+)|^(\\$)|^(a\\$)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->data, $this->N), $yymatches)) {
@@ -120,11 +120,18 @@ class TestLexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r1_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r1_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -132,6 +139,7 @@ class TestLexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -268,11 +276,18 @@ class TestLexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r2_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r2_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -280,6 +295,7 @@ class TestLexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -357,11 +373,18 @@ class TestLexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r3_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r3_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -369,6 +392,7 @@ class TestLexer
             }
             break;
         } while (true);
+
     } // end function
 
 

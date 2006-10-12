@@ -316,6 +316,8 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
         $pattern = '/';
         $ruleMap = array();
         $tokenindex = array();
+        $actualindex = 1;
+        $i = 0;
         foreach ($rules as $rule) {
             $ruleMap[$i++] = $actualindex;
             $tokenindex[$actualindex] = $rule['subpatterns'];
@@ -423,8 +425,6 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
     function outputRules($rules, $statename)
     {
         static $ruleindex = 1;
-        $i = 0;
-        $actualindex = 1;
         if (!$statename) {
             $statename = $ruleindex;
         }
@@ -432,8 +432,19 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
     function yylex' . $ruleindex . '()
     {');
         if ($this->matchlongest) {
+	        $ruleMap = array();
+        	foreach ($rules as $i => $rule) {
+        		$ruleMap[$i] = $i;
+        	}
         	$this->doLongestMatch($rules, $statename, $ruleindex);
         } else {
+	        $ruleMap = array();
+	        $actualindex = 1;
+	        $i = 0;
+	        foreach ($rules as $rule) {
+	            $ruleMap[$i++] = $actualindex;
+	            $actualindex += $rule['subpatterns'] + 1;
+	        }
         	$this->doFirstMatch($rules, $statename, $ruleindex);
         }
         fwrite($this->out, '
@@ -446,7 +457,7 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
 ');
         }
         foreach ($rules as $i => $rule) {
-            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $i . '($yy_subpatterns)
+            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $ruleMap[$i] . '($yy_subpatterns)
     {
 ' . $rule['code'] .
 '    }
@@ -476,7 +487,7 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
         }
         return $this->_regexParser->result;
     }
-#line 483 "Parser.php"
+#line 494 "Parser.php"
 
 /* Next is all token values, as class constants
 */
@@ -1238,7 +1249,7 @@ static public $yy_action = array(
     **   function yy_r0($yymsp){ ... }           // User supplied code
     **  #line <lineno> <thisfile>
     */
-#line 388 "Parser.y"
+#line 399 "Parser.y"
     function yy_r1(){
     fwrite($this->out, '
     private $_yy_state = 1;
@@ -1273,8 +1284,8 @@ static public $yy_action = array(
         }
     }
     }
-#line 1282 "Parser.php"
-#line 422 "Parser.y"
+#line 1293 "Parser.php"
+#line 433 "Parser.y"
     function yy_r2(){
     fwrite($this->out, '
     private $_yy_state = 1;
@@ -1312,8 +1323,8 @@ static public $yy_action = array(
         }
     }
     }
-#line 1321 "Parser.php"
-#line 459 "Parser.y"
+#line 1332 "Parser.php"
+#line 470 "Parser.y"
     function yy_r3(){
     if (strlen($this->yystack[$this->yyidx + -2]->minor)) {
         fwrite($this->out, $this->yystack[$this->yyidx + -2]->minor);
@@ -1351,8 +1362,8 @@ static public $yy_action = array(
         }
     }
     }
-#line 1360 "Parser.php"
-#line 496 "Parser.y"
+#line 1371 "Parser.php"
+#line 507 "Parser.y"
     function yy_r4(){
     if (strlen($this->yystack[$this->yyidx + -3]->minor)) {
         fwrite($this->out, $this->yystack[$this->yyidx + -3]->minor);
@@ -1393,15 +1404,15 @@ static public $yy_action = array(
         }
     }
     }
-#line 1402 "Parser.php"
-#line 537 "Parser.y"
+#line 1413 "Parser.php"
+#line 548 "Parser.y"
     function yy_r5(){
     $this->_retvalue = $this->yystack[$this->yyidx + -1]->minor;
     $this->patterns = $this->yystack[$this->yyidx + -1]->minor['patterns'];
     $this->_patternIndex = 1;
     }
-#line 1409 "Parser.php"
-#line 543 "Parser.y"
+#line 1420 "Parser.php"
+#line 554 "Parser.y"
     function yy_r6(){
     $expected = array(
         'counter' => true,
@@ -1442,26 +1453,26 @@ static public $yy_action = array(
     $this->_retvalue = array('patterns' => $this->yystack[$this->yyidx + 0]->minor, 'pis' => $this->yystack[$this->yyidx + -1]->minor);
     $this->_patternIndex = 1;
     }
-#line 1451 "Parser.php"
-#line 584 "Parser.y"
+#line 1462 "Parser.php"
+#line 595 "Parser.y"
     function yy_r7(){
     $this->_retvalue = array(array('pi' => $this->yystack[$this->yyidx + -1]->minor, 'definition' => $this->yystack[$this->yyidx + 0]->minor));
     }
-#line 1456 "Parser.php"
-#line 590 "Parser.y"
+#line 1467 "Parser.php"
+#line 601 "Parser.y"
     function yy_r9(){
     $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor;
     $this->_retvalue[] = array('pi' => $this->yystack[$this->yyidx + -1]->minor, 'definition' => $this->yystack[$this->yyidx + 0]->minor);
     }
-#line 1462 "Parser.php"
-#line 599 "Parser.y"
+#line 1473 "Parser.php"
+#line 610 "Parser.y"
     function yy_r11(){
     $this->_retvalue = array($this->yystack[$this->yyidx + -1]->minor => $this->yystack[$this->yyidx + 0]->minor);
     // reset internal indicator of where we are in a pattern
     $this->_patternIndex = 0;
     }
-#line 1469 "Parser.php"
-#line 604 "Parser.y"
+#line 1480 "Parser.php"
+#line 615 "Parser.y"
     function yy_r12(){
     $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor;
     if (isset($this->_retvalue[$this->yystack[$this->yyidx + -1]->minor])) {
@@ -1472,13 +1483,13 @@ static public $yy_action = array(
     // reset internal indicator of where we are in a pattern declaration
     $this->_patternIndex = 0;
     }
-#line 1481 "Parser.php"
-#line 615 "Parser.y"
+#line 1492 "Parser.php"
+#line 626 "Parser.y"
     function yy_r13(){
     $this->_retvalue = array(array('rules' => $this->yystack[$this->yyidx + -1]->minor, 'code' => '', 'statename' => ''));
     }
-#line 1486 "Parser.php"
-#line 618 "Parser.y"
+#line 1497 "Parser.php"
+#line 629 "Parser.y"
     function yy_r14(){
     if ($this->yystack[$this->yyidx + -3]->minor != 'statename') {
         throw new Exception('Error: only %statename processing instruction ' .
@@ -1486,13 +1497,13 @@ static public $yy_action = array(
     }
     $this->_retvalue = array(array('rules' => $this->yystack[$this->yyidx + -1]->minor, 'code' => '', 'statename' => $this->yystack[$this->yyidx + -2]->minor));
     }
-#line 1495 "Parser.php"
-#line 625 "Parser.y"
+#line 1506 "Parser.php"
+#line 636 "Parser.y"
     function yy_r15(){
     $this->_retvalue = array(array('rules' => $this->yystack[$this->yyidx + -2]->minor, 'code' => $this->yystack[$this->yyidx + 0]->minor, 'statename' => ''));
     }
-#line 1500 "Parser.php"
-#line 628 "Parser.y"
+#line 1511 "Parser.php"
+#line 639 "Parser.y"
     function yy_r16(){
     if ($this->yystack[$this->yyidx + -4]->minor != 'statename') {
         throw new Exception('Error: only %statename processing instruction ' .
@@ -1501,15 +1512,15 @@ static public $yy_action = array(
     $this->_retvalue = array(array('rules' => $this->yystack[$this->yyidx + -2]->minor, 'code' => $this->yystack[$this->yyidx + 0]->minor, 'statename' => $this->yystack[$this->yyidx + -3]->minor));
     $this->_patternIndex = 1;
     }
-#line 1510 "Parser.php"
-#line 636 "Parser.y"
+#line 1521 "Parser.php"
+#line 647 "Parser.y"
     function yy_r17(){
     $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor;
     $this->_retvalue[] = array('rules' => $this->yystack[$this->yyidx + -1]->minor, 'code' => '', 'statename' => '');
     $this->_patternIndex = 1;
     }
-#line 1517 "Parser.php"
-#line 641 "Parser.y"
+#line 1528 "Parser.php"
+#line 652 "Parser.y"
     function yy_r18(){
     if ($this->yystack[$this->yyidx + -3]->minor != 'statename') {
         throw new Exception('Error: only %statename processing instruction ' .
@@ -1518,14 +1529,14 @@ static public $yy_action = array(
     $this->_retvalue = $this->yystack[$this->yyidx + -4]->minor;
     $this->_retvalue[] = array('rules' => $this->yystack[$this->yyidx + -1]->minor, 'code' => '', 'statename' => $this->yystack[$this->yyidx + -2]->minor);
     }
-#line 1527 "Parser.php"
-#line 649 "Parser.y"
+#line 1538 "Parser.php"
+#line 660 "Parser.y"
     function yy_r19(){
     $this->_retvalue = $this->yystack[$this->yyidx + -3]->minor;
     $this->_retvalue[] = array('rules' => $this->yystack[$this->yyidx + -2]->minor, 'code' => $this->yystack[$this->yyidx + 0]->minor, 'statename' => '');
     }
-#line 1533 "Parser.php"
-#line 653 "Parser.y"
+#line 1544 "Parser.php"
+#line 664 "Parser.y"
     function yy_r20(){
     if ($this->yystack[$this->yyidx + -4]->minor != 'statename') {
         throw new Exception('Error: only %statename processing instruction ' .
@@ -1534,14 +1545,14 @@ static public $yy_action = array(
     $this->_retvalue = $this->yystack[$this->yyidx + -5]->minor;
     $this->_retvalue[] = array('rules' => $this->yystack[$this->yyidx + -2]->minor, 'code' => $this->yystack[$this->yyidx + 0]->minor, 'statename' => $this->yystack[$this->yyidx + -3]->minor);
     }
-#line 1543 "Parser.php"
-#line 662 "Parser.y"
+#line 1554 "Parser.php"
+#line 673 "Parser.y"
     function yy_r21(){
     $this->_retvalue = $this->yystack[$this->yyidx + -1]->minor;
     $this->_patternIndex = 1;
     }
-#line 1549 "Parser.php"
-#line 667 "Parser.y"
+#line 1560 "Parser.php"
+#line 678 "Parser.y"
     function yy_r22(){
     $name = $this->yystack[$this->yyidx + -1]->minor[1];
     $this->yystack[$this->yyidx + -1]->minor = $this->yystack[$this->yyidx + -1]->minor[0];
@@ -1552,8 +1563,8 @@ static public $yy_action = array(
     }
     $this->_retvalue = array(array('pattern' => str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']));
     }
-#line 1561 "Parser.php"
-#line 677 "Parser.y"
+#line 1572 "Parser.php"
+#line 688 "Parser.y"
     function yy_r23(){
     $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor;
     $name = $this->yystack[$this->yyidx + -1]->minor[1];
@@ -1565,13 +1576,13 @@ static public $yy_action = array(
     }
     $this->_retvalue[] = array('pattern' => str_replace('/', '\\/', $this->yystack[$this->yyidx + -1]->minor->string), 'code' => $this->yystack[$this->yyidx + 0]->minor, 'subpatterns' => $this->yystack[$this->yyidx + -1]->minor['subpatterns']);
     }
-#line 1574 "Parser.php"
-#line 689 "Parser.y"
+#line 1585 "Parser.php"
+#line 700 "Parser.y"
     function yy_r24(){
     $this->_retvalue = array(preg_quote($this->yystack[$this->yyidx + 0]->minor, '/'), $this->yystack[$this->yyidx + 0]->minor);
     }
-#line 1579 "Parser.php"
-#line 692 "Parser.y"
+#line 1590 "Parser.php"
+#line 703 "Parser.y"
     function yy_r25(){
     if (!isset($this->patterns[$this->yystack[$this->yyidx + 0]->minor])) {
         $this->error('Undefined pattern "' . $this->yystack[$this->yyidx + 0]->minor . '" used in rules');
@@ -1579,13 +1590,13 @@ static public $yy_action = array(
     }
     $this->_retvalue = array($this->patterns[$this->yystack[$this->yyidx + 0]->minor], $this->yystack[$this->yyidx + 0]->minor);
     }
-#line 1588 "Parser.php"
-#line 699 "Parser.y"
+#line 1599 "Parser.php"
+#line 710 "Parser.y"
     function yy_r26(){
     $this->_retvalue = array($this->yystack[$this->yyidx + -1]->minor[0] . preg_quote($this->yystack[$this->yyidx + 0]->minor, '/'), $this->yystack[$this->yyidx + -1]->minor[1] . ' ' . $this->yystack[$this->yyidx + 0]->minor);
     }
-#line 1593 "Parser.php"
-#line 702 "Parser.y"
+#line 1604 "Parser.php"
+#line 713 "Parser.y"
     function yy_r27(){
     if (!isset($this->patterns[$this->yystack[$this->yyidx + 0]->minor])) {
         $this->error('Undefined pattern "' . $this->yystack[$this->yyidx + 0]->minor . '" used in rules');
@@ -1593,13 +1604,13 @@ static public $yy_action = array(
     }
     $this->_retvalue = array($this->yystack[$this->yyidx + -1]->minor[0] . $this->patterns[$this->yystack[$this->yyidx + 0]->minor], $this->yystack[$this->yyidx + -1]->minor[1] . ' ' . $this->yystack[$this->yyidx + 0]->minor);
     }
-#line 1602 "Parser.php"
-#line 710 "Parser.y"
+#line 1613 "Parser.php"
+#line 721 "Parser.y"
     function yy_r28(){
     $this->_retvalue = preg_quote($this->yystack[$this->yyidx + 0]->minor, '/');
     }
-#line 1607 "Parser.php"
-#line 713 "Parser.y"
+#line 1618 "Parser.php"
+#line 724 "Parser.y"
     function yy_r29(){
     // increment internal sub-pattern counter
     // adjust back-references in pattern based on previous pattern
@@ -1607,13 +1618,13 @@ static public $yy_action = array(
     $this->_patternIndex += $test['subpatterns'];
     $this->_retvalue = $test['pattern'];
     }
-#line 1616 "Parser.php"
-#line 720 "Parser.y"
+#line 1627 "Parser.php"
+#line 731 "Parser.y"
     function yy_r30(){
     $this->_retvalue = $this->yystack[$this->yyidx + -1]->minor . preg_quote($this->yystack[$this->yyidx + 0]->minor, '/');
     }
-#line 1621 "Parser.php"
-#line 723 "Parser.y"
+#line 1632 "Parser.php"
+#line 734 "Parser.y"
     function yy_r31(){
     // increment internal sub-pattern counter
     // adjust back-references in pattern based on previous pattern
@@ -1621,7 +1632,7 @@ static public $yy_action = array(
     $this->_patternIndex += $test['subpatterns'];
     $this->_retvalue = $this->yystack[$this->yyidx + -1]->minor . $test['pattern'];
     }
-#line 1630 "Parser.php"
+#line 1641 "Parser.php"
 
     /**
      * placeholder for the left hand side in a reduce operation.
@@ -1745,7 +1756,7 @@ static public $yy_action = array(
     }
     throw new Exception('Unexpected ' . $this->tokenName($yymajor) . '(' . $TOKEN
         . '), expected one of: ' . implode(',', $expect));
-#line 1755 "Parser.php"
+#line 1766 "Parser.php"
     }
 
     /**

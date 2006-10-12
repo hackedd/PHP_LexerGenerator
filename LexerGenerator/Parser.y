@@ -225,6 +225,8 @@ require_once 'PHP/LexerGenerator/Exception.php';
         $pattern = '/';
         $ruleMap = array();
         $tokenindex = array();
+        $actualindex = 1;
+        $i = 0;
         foreach ($rules as $rule) {
             $ruleMap[$i++] = $actualindex;
             $tokenindex[$actualindex] = $rule['subpatterns'];
@@ -332,8 +334,6 @@ require_once 'PHP/LexerGenerator/Exception.php';
     function outputRules($rules, $statename)
     {
         static $ruleindex = 1;
-        $i = 0;
-        $actualindex = 1;
         if (!$statename) {
             $statename = $ruleindex;
         }
@@ -341,8 +341,19 @@ require_once 'PHP/LexerGenerator/Exception.php';
     function yylex' . $ruleindex . '()
     {');
         if ($this->matchlongest) {
+	        $ruleMap = array();
+        	foreach ($rules as $i => $rule) {
+        		$ruleMap[$i] = $i;
+        	}
         	$this->doLongestMatch($rules, $statename, $ruleindex);
         } else {
+	        $ruleMap = array();
+	        $actualindex = 1;
+	        $i = 0;
+	        foreach ($rules as $rule) {
+	            $ruleMap[$i++] = $actualindex;
+	            $actualindex += $rule['subpatterns'] + 1;
+	        }
         	$this->doFirstMatch($rules, $statename, $ruleindex);
         }
         fwrite($this->out, '
@@ -355,7 +366,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 ');
         }
         foreach ($rules as $i => $rule) {
-            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $i . '($yy_subpatterns)
+            fwrite($this->out, '    function yy_r' . $ruleindex . '_' . $ruleMap[$i] . '($yy_subpatterns)
     {
 ' . $rule['code'] .
 '    }
