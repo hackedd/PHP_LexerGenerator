@@ -45,6 +45,8 @@
    <dir name="examples">
     <file name="TestLexer.php" role="doc"/>
     <file name="TestLexer.plex" role="doc"/>
+    <file name="longestfirst.php" role="doc"/>
+    <file name="longestfirst.plex" role="doc"/>
    </dir>
    <dir name="LexerGenerator">
     <dir name="Regex">
