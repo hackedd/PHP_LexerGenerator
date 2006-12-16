@@ -118,6 +118,9 @@ require_once 'PHP/LexerGenerator/Exception.php';
     function doLongestMatch($rules, $statename, $ruleindex)
     {
     	fwrite($this->out, '
+        if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
+            return false; // end of input
+        }
     	do {
 	    	$rules = array(');
     	foreach ($rules as $rule) {
@@ -153,7 +156,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 	        $r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}($yysubmatches);
 	        if ($r === null) {
 	            ' . $this->counter . ' += strlen($this->value);
-	            ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	            ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
 	            // accept this token
 	            return true;
 	        } elseif ($r === true) {
@@ -162,7 +165,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 	            return $this->yylex();
 	        } elseif ($r === false) {
 	            ' . $this->counter . ' += strlen($this->value);
-	            ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	            ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
 	            if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
 	                return false; // end of input
 	            }
@@ -201,7 +204,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 			    	if (!$yysubmatches) {
 			    		$yysubmatches = array();
 			    	}
-	                ' . $this->line . ' = substr_count("\n", ' . $this->value . ');
+	                ' . $this->line . ' = substr_count(' . $this->value . ', "\n");
 	                $r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}();
 	            } while ($r !== null || !$r);
 		        if ($r === true) {
@@ -211,7 +214,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
 		        } else {
 	                // accept
 	                ' . $this->counter . ' += strlen($this->value);
-	                ' . $this->line . ' += substr_count("\n", ' . $this->value . ');
+	                ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
 	                return true;
 		        }
 	        }
