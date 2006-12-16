@@ -25,9 +25,9 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-10-12</date>
+ <date>2006-12-20</date>
  <version>
-  <release>0.3.0</release>
+  <release>0.3.1</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -74,8 +74,8 @@
     <tasks:unixeol/>
    </file>
    <file name="plex.bat" role="script" baseinstalldir="">
-    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
-    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
+    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
+    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
     <tasks:windowseol/>
    </file>
    <dir name="tests">
