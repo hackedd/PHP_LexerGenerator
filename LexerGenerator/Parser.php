@@ -476,7 +476,7 @@ class PHP_LexerGenerator_Parser#line 171 "Parser.php"
 
     function _validatePattern($pattern, $update = false)
     {
-        $this->_regexLexer->reset($pattern);
+        $this->_regexLexer->reset($pattern, $this->lex->line);
         $this->_regexParser->reset($this->_patternIndex, $update);
         try {
             while ($this->_regexLexer->yylex()) {

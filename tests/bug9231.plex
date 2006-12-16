@@ -1,0 +1,15 @@
+<?php
+class blah {
+/*!lex2php
+%input $this->data
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+T_INLINE_HTML = /(\s|.)+?(?=<[?%])/
+*/
+/*!lex2php
+T_INLINE_HTML {$a = 1;}
+*/
+}
+?>

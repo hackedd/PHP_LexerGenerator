@@ -38,6 +38,7 @@
  <notes>
   - fix Bug #9211: Typos
   - fix Bug #9230: Escape sequences
+  - fix Bug #9231: Non-greedy regex extension
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -209,6 +210,7 @@
    <notes>
   - fix Bug #9211: Typos
   - fix Bug #9230: Escape sequences
+  - fix Bug #9231: Non-greedy regex extension
    </notes>
   </release>
  </changelog>
