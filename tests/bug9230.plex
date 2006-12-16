@@ -1,0 +1,15 @@
+<?php
+class blah {
+/*!lex2php
+%input $this->data
+%counter $this->N
+%token $this->token
+%value $this->value
+%line $this->line
+DELIMA = /[a-z_\x7f-\xff]/
+*/
+/*!lex2php
+DELIMA {$a = 1;}
+*/
+}
+?>

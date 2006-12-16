@@ -105,7 +105,7 @@ class PHP_LexerGenerator_Regex_Lexer
         if ($this->N >= strlen($this->input)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(\\\\\\\\)|^([^[\\\\^$.|()?*+{}]+)|^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)/";
+        $yy_global_pattern = "/^(\\\\\\\\)|^([^[\\\\^$.|()?*+{}]+)|^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->input, $this->N), $yymatches)) {
@@ -145,13 +145,13 @@ class PHP_LexerGenerator_Regex_Lexer
                     // skip this token
                     continue;
                 } else {                    $yy_yymore_patterns = array(
-        1 => "^([^[\\\\^$.|()?*+{}]+)|^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        2 => "^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        3 => "^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        4 => "^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        5 => "^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        6 => "^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
-        7 => "^(\\\\[abBGcedDsSwW0C])|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        1 => "^([^[\\\\^$.|()?*+{}]+)|^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        2 => "^(\\\\[][{}*.^$|?()+])|^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        3 => "^(\\[)|^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        4 => "^(\\|)|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        5 => "^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        6 => "^(\\\\[0-9][0-9])|^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
+        7 => "^(\\\\[abBGcedDsSwW0C]|\\\\c\\\\)|^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
         8 => "^(\\^)|^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
         9 => "^(\\\\A)|^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
         10 => "^(\\))|^(\\$)|^([*?+]|\\{[0-9]+\\}|\\{[0-9]+,\\}|\\{[0-9]+,[0-9]+\\})|^(\\\\[zZ])|^(\\(\\?)|^(\\()|^(\\.)|^(\\\\[1-9])|^(\\\\p\\{\\^?..?\\}|\\\\P\\{..?\\}|\\\\X)|^(\\\\p\\{C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p\\{\\^C[cfnos]?|L[lmotu]?|M[cen]?|N[dlo]?|P[cdefios]?|S[ckmo]?|Z[lps]?\\})|^(\\\\p[CLMNPSZ])|^(\\\\)",
@@ -183,11 +183,18 @@ class PHP_LexerGenerator_Regex_Lexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r1_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r1_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -195,6 +202,7 @@ class PHP_LexerGenerator_Regex_Lexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -387,11 +395,18 @@ class PHP_LexerGenerator_Regex_Lexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r2_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r2_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -399,6 +414,7 @@ class PHP_LexerGenerator_Regex_Lexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -440,7 +456,7 @@ class PHP_LexerGenerator_Regex_Lexer
         if ($this->N >= strlen($this->input)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(\\\\\\\\)|^(\\])|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)/";
+        $yy_global_pattern = "/^(\\\\\\\\)|^(\\])|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->input, $this->N), $yymatches)) {
@@ -480,9 +496,9 @@ class PHP_LexerGenerator_Regex_Lexer
                     // skip this token
                     continue;
                 } else {                    $yy_yymore_patterns = array(
-        1 => "^(\\])|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
-        2 => "^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
-        3 => "^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
+        1 => "^(\\])|^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
+        2 => "^(\\\\[frnt]|\\\\x[0-9a-fA-F][0-9a-fA-F]?|\\\\[0-7][0-7][0-7]|\\\\x\\{[0-9a-fA-F]+\\})|^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
+        3 => "^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
         4 => "^(\\\\[0-9][0-9])|^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
         5 => "^(\\\\[1-9])|^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
         6 => "^(\\\\[]\\.\\-\\^])|^(-(?!]))|^([^\\-\\\\])|^(\\\\)|^(.)",
@@ -506,11 +522,18 @@ class PHP_LexerGenerator_Regex_Lexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r3_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r3_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -518,6 +541,7 @@ class PHP_LexerGenerator_Regex_Lexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -541,7 +565,7 @@ class PHP_LexerGenerator_Regex_Lexer
     function yy_r3_4($yy_subpatterns)
     {
 
-    $this->token = self::CONTROLCHAR;
+    $this->token = self::TEXT;
     }
     function yy_r3_5($yy_subpatterns)
     {
@@ -595,7 +619,7 @@ class PHP_LexerGenerator_Regex_Lexer
         if ($this->N >= strlen($this->input)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(\\\\\\\\)|^(\\\\\\])|^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)/";
+        $yy_global_pattern = "/^(\\\\\\\\)|^(\\\\\\])|^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->input, $this->N), $yymatches)) {
@@ -635,8 +659,8 @@ class PHP_LexerGenerator_Regex_Lexer
                     // skip this token
                     continue;
                 } else {                    $yy_yymore_patterns = array(
-        1 => "^(\\\\\\])|^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
-        2 => "^(\\\\[bacedDsSwW0C]|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7])|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
+        1 => "^(\\\\\\])|^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
+        2 => "^(\\\\[bacedDsSwW0C]|\\\\c\\\\|\\\\x\\{[0-9a-fA-F]+\\}|\\\\[0-7][0-7][0-7]|\\\\x[0-9a-fA-F][0-9a-fA-F]?)|^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
         3 => "^(\\\\[0-9][0-9])|^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
         4 => "^(\\\\[1-9])|^([^\\-\\\\])|^(\\\\)",
         5 => "^([^\\-\\\\])|^(\\\\)",
@@ -657,11 +681,18 @@ class PHP_LexerGenerator_Regex_Lexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r4_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r4_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -669,6 +700,7 @@ class PHP_LexerGenerator_Regex_Lexer
             }
             break;
         } while (true);
+
     } // end function
 
 
@@ -687,7 +719,7 @@ class PHP_LexerGenerator_Regex_Lexer
     function yy_r4_3($yy_subpatterns)
     {
 
-    $this->token = self::CONTROLCHAR;
+    $this->token = self::TEXT;
     $this->yybegin(self::CHARACTERCLASS);
     }
     function yy_r4_4($yy_subpatterns)
@@ -801,11 +833,18 @@ class PHP_LexerGenerator_Regex_Lexer
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count("\n", $this->value);
                         }
-                    } while ($this->{'yy_r5_' . $this->token}() !== null);
-                    // accept
-                    $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
-                    return true;
+                    	$r = $this->{'yy_r5_' . $this->token}();
+                    } while ($r !== null || !$r);
+			        if ($r === true) {
+			            // we have changed state
+			            // process this token in the new state
+			            return $this->yylex();
+			        } else {
+	                    // accept
+	                    $this->N += strlen($this->value);
+	                    $this->line += substr_count("\n", $this->value);
+	                    return true;
+			        }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
@@ -813,6 +852,7 @@ class PHP_LexerGenerator_Regex_Lexer
             }
             break;
         } while (true);
+
     } // end function
 
 

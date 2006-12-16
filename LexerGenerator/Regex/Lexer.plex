@@ -60,9 +60,9 @@ ESCAPEDTHING = /\\[][{}*.^$|?()+]/
 ESCAPEDCHARCLASSTHING = /\\[]\.\-\^]/
 MULTIPLIER = /[*?+]|\{[0-9]+\}|\{[0-9]+,\}|\{[0-9]+,[0-9]+\}/
 STRINGCHAR = /\\[frnt]|\\x[0-9a-fA-F][0-9a-fA-F]?|\\[0-7][0-7][0-7]|\\x\{[0-9a-fA-F]+\}/
-CONTROLCHAR = /\\[abBGcedDsSwW0C]/
+CONTROLCHAR = /\\[abBGcedDsSwW0C]|\\c\\/
 COULDBEBACKREF = /\\[0-9][0-9]/
-CHARCLASSCONTROLCHAR = /\\[bacedDsSwW0C]|\\x\{[0-9a-fA-F]+\}|\\[0-7][0-7][0-7]/
+CHARCLASSCONTROLCHAR = /\\[bacedDsSwW0C]|\\c\\|\\x\{[0-9a-fA-F]+\}|\\[0-7][0-7][0-7]|\\x[0-9a-fA-F][0-9a-fA-F]?/
 SUBJECTEND = /\\[zZ]/
 BACKREF = /\\[1-9]/
 UNICODESTUFF = /\\p\{\^?..?\}|\\P\{..?\}|\\X/
@@ -176,7 +176,7 @@ STRINGCHAR {
     $this->token = self::TEXT;
 }
 CHARCLASSCONTROLCHAR {
-    $this->token = self::CONTROLCHAR;
+    $this->token = self::TEXT;
 }
 COULDBEBACKREF {
     $this->token = self::COULDBEBACKREF;
@@ -211,7 +211,7 @@ ANYTHING {
     $this->yybegin(self::CHARACTERCLASS);
 }
 CHARCLASSCONTROLCHAR {
-    $this->token = self::CONTROLCHAR;
+    $this->token = self::TEXT;
     $this->yybegin(self::CHARACTERCLASS);
 }
 COULDBEBACKREF {

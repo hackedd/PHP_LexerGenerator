@@ -141,40 +141,16 @@ character_class_contents(A) ::= TEXT(B). {
     A = new PHP_LexerGenerator_ParseryyToken(B, array(
         'pattern' => B));
 }
-character_class_contents(A) ::= CONTROLCHAR(B). {
-    A = new PHP_LexerGenerator_ParseryyToken('\\' . B, array(
-        'pattern' => B));
-}
 character_class_contents(A) ::= ESCAPEDBACKSLASH(B). {
     A = new PHP_LexerGenerator_ParseryyToken('\\\\' . B, array(
         'pattern' => B));
-}
-character_class_contents(A) ::= ESCAPEDBACKSLASH(B) HYPHEN CONTROLCHAR(C). {
-    A = new PHP_LexerGenerator_ParseryyToken('\\\\' . B . '-\\' . C, array(
-        'pattern' => B . '-' . C));
-}
-character_class_contents(A) ::= CONTROLCHAR(B) HYPHEN ESCAPEDBACKSLASH(C). {
-    A = new PHP_LexerGenerator_ParseryyToken('\\' . B . '-\\\\' . C, array(
-        'pattern' => B . '-' . C));
-}
-character_class_contents(A) ::= CONTROLCHAR(B) HYPHEN CONTROLCHAR(C). {
-    A = new PHP_LexerGenerator_ParseryyToken('\\' . B . '-\\' . C, array(
-        'pattern' => B . '-' . C));
 }
 character_class_contents(A) ::= ESCAPEDBACKSLASH(B) HYPHEN TEXT(C). {
     A = new PHP_LexerGenerator_ParseryyToken('\\\\' . B . '-' . C, array(
         'pattern' => B . '-' . C));
 }
-character_class_contents(A) ::= CONTROLCHAR(B) HYPHEN TEXT(C). {
-    A = new PHP_LexerGenerator_ParseryyToken('\\' . B . '-' . C, array(
-        'pattern' => B . '-' . C));
-}
 character_class_contents(A) ::= TEXT(B) HYPHEN TEXT(C). {
     A = new PHP_LexerGenerator_ParseryyToken(B . '-' . C, array(
-        'pattern' => B . '-' . C));
-}
-character_class_contents(A) ::= TEXT(B) HYPHEN CONTROLCHAR(C). {
-    A = new PHP_LexerGenerator_ParseryyToken(B . '-\\' . C, array(
         'pattern' => B . '-' . C));
 }
 character_class_contents(A) ::= TEXT(B) HYPHEN ESCAPEDBACKSLASH(C). {
@@ -212,28 +188,12 @@ character_class_contents(A) ::= character_class_contents(D) TEXT(B). {
     A = new PHP_LexerGenerator_ParseryyToken(D->string . B, array(
         'pattern' => D['pattern'] . B));
 }
-character_class_contents(A) ::= character_class_contents(D) CONTROLCHAR(B) HYPHEN CONTROLCHAR(C). {
-    A = new PHP_LexerGenerator_ParseryyToken(D->string . '\\' . B . '-\\' . C, array(
-        'pattern' => D['pattern'] . B . '-' . C));
-}
 character_class_contents(A) ::= character_class_contents(D) ESCAPEDBACKSLASH(B) HYPHEN CONTROLCHAR(C). {
     A = new PHP_LexerGenerator_ParseryyToken(D->string . '\\\\' . B . '-\\' . C, array(
         'pattern' => D['pattern'] . B . '-' . C));
 }
-character_class_contents(A) ::= character_class_contents(D) CONTROLCHAR(B) HYPHEN ESCAPEDBACKSLASH(C). {
-    A = new PHP_LexerGenerator_ParseryyToken(D->string . '\\' . B . '-\\\\' . C, array(
-        'pattern' => D['pattern'] . B . '-' . C));
-}
-character_class_contents(A) ::= character_class_contents(D) CONTROLCHAR(B) HYPHEN TEXT(C). {
-    A = new PHP_LexerGenerator_ParseryyToken(D->string . '\\' . B . '-' . C, array(
-        'pattern' => D['pattern'] . B . '-' . C));
-}
 character_class_contents(A) ::= character_class_contents(D) ESCAPEDBACKSLASH(B) HYPHEN TEXT(C). {
     A = new PHP_LexerGenerator_ParseryyToken(D->string . '\\\\' . B . '-' . C, array(
-        'pattern' => D['pattern'] . B . '-' . C));
-}
-character_class_contents(A) ::= character_class_contents(D) TEXT(B) HYPHEN CONTROLCHAR(C). {
-    A = new PHP_LexerGenerator_ParseryyToken(D->string . B . '-\\' . C, array(
         'pattern' => D['pattern'] . B . '-' . C));
 }
 character_class_contents(A) ::= character_class_contents(D) TEXT(B) HYPHEN ESCAPEDBACKSLASH(C). {
