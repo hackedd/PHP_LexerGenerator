@@ -25,9 +25,9 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-12-15</date>
+ <date>2007-02-17</date>
  <version>
-  <release>0.3.1</release>
+  <release>0.3.2</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -36,9 +36,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - fix Bug #9211: Typos
-  - fix Bug #9230: Escape sequences
-  - fix Bug #9231: Non-greedy regex extension
+  - fix Bug #9892: dirname(__FILE__) should not be used for include/require
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -211,6 +209,21 @@
   - fix Bug #9211: Typos
   - fix Bug #9230: Escape sequences
   - fix Bug #9231: Non-greedy regex extension
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.2</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2007-02-17</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #9892: dirname(__FILE__) should not be used for include/require
    </notes>
   </release>
  </changelog>
