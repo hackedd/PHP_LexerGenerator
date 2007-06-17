@@ -131,7 +131,7 @@ class PHP_LexerGenerator_Regex_Lexer
                 $r = $this->{'yy_r1_' . $this->token}($yysubmatches);
                 if ($r === null) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -140,7 +140,7 @@ class PHP_LexerGenerator_Regex_Lexer
                     return $this->yylex();
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -183,7 +183,7 @@ class PHP_LexerGenerator_Regex_Lexer
                             next($yymatches); // skip global match
                             $this->token = key($yymatches); // token number
                             $this->value = current($yymatches); // token value
-                            $this->line = substr_count("\n", $this->value);
+                            $this->line = substr_count($this->value, "\n");
                         }
                     	$r = $this->{'yy_r1_' . $this->token}();
                     } while ($r !== null || !$r);
@@ -194,7 +194,7 @@ class PHP_LexerGenerator_Regex_Lexer
 			        } else {
 	                    // accept
 	                    $this->N += strlen($this->value);
-	                    $this->line += substr_count("\n", $this->value);
+	                    $this->line += substr_count($this->value, "\n");
 	                    return true;
 			        }
                 }
@@ -363,7 +363,7 @@ class PHP_LexerGenerator_Regex_Lexer
                 $r = $this->{'yy_r2_' . $this->token}($yysubmatches);
                 if ($r === null) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -372,7 +372,7 @@ class PHP_LexerGenerator_Regex_Lexer
                     return $this->yylex();
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -395,7 +395,7 @@ class PHP_LexerGenerator_Regex_Lexer
                             next($yymatches); // skip global match
                             $this->token = key($yymatches); // token number
                             $this->value = current($yymatches); // token value
-                            $this->line = substr_count("\n", $this->value);
+                            $this->line = substr_count($this->value, "\n");
                         }
                     	$r = $this->{'yy_r2_' . $this->token}();
                     } while ($r !== null || !$r);
@@ -406,7 +406,7 @@ class PHP_LexerGenerator_Regex_Lexer
 			        } else {
 	                    // accept
 	                    $this->N += strlen($this->value);
-	                    $this->line += substr_count("\n", $this->value);
+	                    $this->line += substr_count($this->value, "\n");
 	                    return true;
 			        }
                 }
@@ -482,7 +482,7 @@ class PHP_LexerGenerator_Regex_Lexer
                 $r = $this->{'yy_r3_' . $this->token}($yysubmatches);
                 if ($r === null) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -491,7 +491,7 @@ class PHP_LexerGenerator_Regex_Lexer
                     return $this->yylex();
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -522,7 +522,7 @@ class PHP_LexerGenerator_Regex_Lexer
                             next($yymatches); // skip global match
                             $this->token = key($yymatches); // token number
                             $this->value = current($yymatches); // token value
-                            $this->line = substr_count("\n", $this->value);
+                            $this->line = substr_count($this->value, "\n");
                         }
                     	$r = $this->{'yy_r3_' . $this->token}();
                     } while ($r !== null || !$r);
@@ -533,7 +533,7 @@ class PHP_LexerGenerator_Regex_Lexer
 			        } else {
 	                    // accept
 	                    $this->N += strlen($this->value);
-	                    $this->line += substr_count("\n", $this->value);
+	                    $this->line += substr_count($this->value, "\n");
 	                    return true;
 			        }
                 }
@@ -645,7 +645,7 @@ class PHP_LexerGenerator_Regex_Lexer
                 $r = $this->{'yy_r4_' . $this->token}($yysubmatches);
                 if ($r === null) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -654,7 +654,7 @@ class PHP_LexerGenerator_Regex_Lexer
                     return $this->yylex();
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -681,7 +681,7 @@ class PHP_LexerGenerator_Regex_Lexer
                             next($yymatches); // skip global match
                             $this->token = key($yymatches); // token number
                             $this->value = current($yymatches); // token value
-                            $this->line = substr_count("\n", $this->value);
+                            $this->line = substr_count($this->value, "\n");
                         }
                     	$r = $this->{'yy_r4_' . $this->token}();
                     } while ($r !== null || !$r);
@@ -692,7 +692,7 @@ class PHP_LexerGenerator_Regex_Lexer
 			        } else {
 	                    // accept
 	                    $this->N += strlen($this->value);
-	                    $this->line += substr_count("\n", $this->value);
+	                    $this->line += substr_count($this->value, "\n");
 	                    return true;
 			        }
                 }
@@ -791,7 +791,7 @@ class PHP_LexerGenerator_Regex_Lexer
                 $r = $this->{'yy_r5_' . $this->token}($yysubmatches);
                 if ($r === null) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -800,7 +800,7 @@ class PHP_LexerGenerator_Regex_Lexer
                     return $this->yylex();
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
-                    $this->line += substr_count("\n", $this->value);
+                    $this->line += substr_count($this->value, "\n");
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -833,7 +833,7 @@ class PHP_LexerGenerator_Regex_Lexer
                             next($yymatches); // skip global match
                             $this->token = key($yymatches); // token number
                             $this->value = current($yymatches); // token value
-                            $this->line = substr_count("\n", $this->value);
+                            $this->line = substr_count($this->value, "\n");
                         }
                     	$r = $this->{'yy_r5_' . $this->token}();
                     } while ($r !== null || !$r);
@@ -844,7 +844,7 @@ class PHP_LexerGenerator_Regex_Lexer
 			        } else {
 	                    // accept
 	                    $this->N += strlen($this->value);
-	                    $this->line += substr_count("\n", $this->value);
+	                    $this->line += substr_count($this->value, "\n");
 	                    return true;
 			        }
                 }
