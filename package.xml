@@ -25,9 +25,9 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-06-17</date>
+ <date>2007-08-18</date>
  <version>
-  <release>0.3.3</release>
+  <release>0.3.4</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -36,7 +36,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - fix Bug #11132: calls to substr_count had args in wrong order [urkle]
+  - fix Bug #11808: yymore broken
  </notes>
  <contents>
   <dir baseinstalldir="PHP" name="/">
@@ -239,6 +239,21 @@
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
   - fix Bug #11132: calls to substr_count had args in wrong order [urkle]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.4</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2007-08-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #11808: yymore broken
    </notes>
   </release>
  </changelog>
