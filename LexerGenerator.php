@@ -1,14 +1,14 @@
 <?php
 /**
  * PHP_LexerGenerator, a php 5 lexer generator.
- * 
+ *
  * This lexer generator translates a file in a format similar to
  * re2c ({@link http://re2c.org}) and translates it into a PHP 5-based lexer
  *
  * PHP version 5
  *
  * LICENSE:
- * 
+ *
  * Copyright (c) 2006, Gregory Beaver <cellog@php.net>
  * All rights reserved.
  *
@@ -53,47 +53,48 @@ require_once 'PHP/LexerGenerator/Parser.php';
  * Hand-written lexer for lex2php format files
  */
 require_once 'PHP/LexerGenerator/Lexer.php';
+
 /**
  * The basic home class for the lexer generator.  A lexer scans text and
  * organizes it into tokens for usage by a parser.
- * 
+ *
  * Sample Usage:
  * <code>
  * require_once 'PHP/LexerGenerator.php';
  * $lex = new PHP_LexerGenerator('/path/to/lexerfile.plex');
  * </code>
- * 
+ *
  * A file named "/path/to/lexerfile.php" will be created.
- * 
+ *
  * File format consists of a PHP file containing specially
  * formatted comments like so:
- * 
+ *
  * <code>
  * /*!lex2php
  * {@*}
  * </code>
- * 
+ *
  * All lexer definition files must contain at least two lex2php comment blocks:
  *  - 1 regex declaration block
  *  - 1 or more rule declaration blocks
- * 
+ *
  * The first lex2php comment is the regex declaration block and must contain
  * several processor instruction as well as defining a name for all
  * regular expressions.  Processor instructions start with
  * a "%" symbol and must be:
- * 
+ *
  *  - %counter
  *  - %input
  *  - %token
  *  - %value
  *  - %line
- * 
+ *
  * token and counter should define the class variables used to define lexer input
  * and the index into the input.  token and value should be used to define the class
  * variables used to store the token number and its textual value.  Finally, line
  * should be used to define the class variable used to define the current line number
  * of scanning.
- * 
+ *
  * For example:
  * <code>
  * /*!lex2php
@@ -104,29 +105,29 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * %line {%this->linenumber}
  * {@*}
  * </code>
- * 
+ *
  * Patterns consist of an identifier containing an letters or an underscore, and
  * a descriptive match pattern.
- * 
+ *
  * Descriptive match patterns may either be regular expressions (regexes) or
  * quoted literal strings.  Here are some examples:
- * 
+ *
  * <pre>
  * pattern = "quoted literal"
  * ANOTHER = /[a-zA-Z_]+/
  * COMPLEX = @<([a-zA-Z_]+)( +(([a-zA-Z_]+)=((["\'])([^\6]*)\6))+){0,1}>[^<]*</\1>@
  * </pre>
- * 
+ *
  * Quoted strings must escape the \ and " characters with \" and \\.
- * 
+ *
  * Regex patterns must be in Perl-compatible regular expression format (preg).
  * special characters (like \t \n or \x3H) can only be used in regexes, all
  * \ will be escaped in literal strings.
- * 
+ *
  * Sub-patterns may be defined and back-references (like \1) may be used.  Any sub-
  * patterns detected will be passed to the token handler in the variable
  * $yysubmatches.
- * 
+ *
  * In addition, lookahead expressions, and once-only expressions are allowed.
  * Lookbehind expressions are impossible (scanning always occurs from the
  * current position forward), and recursion (?R) can't work and is not allowed.
@@ -149,14 +150,14 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * PAWNMOVE = /P?[a-h]([2-7]|[18]\=(Q|R|B|N))|P?[a-h]x[a-h]([2-7]|[18]\=(Q|R|B|N))/
  * {@*}
  * </code>
- * 
+ *
  * All regexes must be delimited.  Any legal preg delimiter can be used (as in @ or / in
  * the example above)
- * 
+ *
  * Rule lex2php blocks each define a lexer state.  You can optionally name the state
  * with the %statename processor instruction.  State names can be used to transfer to
  * a new lexer state with the yybegin() method
- * 
+ *
  * <code>
  * /*!lexphp
  * %statename INITIAL
@@ -173,10 +174,10 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * }
  * {@*}
  * </code>
- * 
+ *
  * You can maintain a parser state stack simply by using yypushstate() and
  * yypopstate() instead of yybegin():
- * 
+ *
  * <code>
  * /*!lexphp
  * %statename INITIAL
@@ -192,10 +193,10 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * }
  * {@*}
  * </code>
- * 
+ *
  * Code blocks can choose to skip the current token and cycle to the next token by
  * returning "false"
- * 
+ *
  * <code>
  * /*!lex2php
  * WHITESPACE {
@@ -203,11 +204,11 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * }
  * {@*}
  * </code>
- * 
+ *
  * If you wish to re-process the current token in a new state, simply return true.
  * If you forget to change lexer state, this will cause an unterminated loop,
  * so be careful!
- * 
+ *
  * <code>
  * /*!lex2php
  * "(" {
@@ -216,10 +217,10 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * }
  * {@*}
  * </code>
- * 
+ *
  * Lastly, if you wish to cycle to the next matching rule, return any value other than
  * true, false or null:
- * 
+ *
  * <code>
  * /*!lex2php
  * "{@" ALPHA {
@@ -233,10 +234,10 @@ require_once 'PHP/LexerGenerator/Lexer.php';
  * }
  * {@*}
  * </code>
- * 
+ *
  * Note that this procedure is exceptionally inefficient, and it would be far better
  * to take advantage of PHP_LexerGenerator's top-down precedence and instead code:
- * 
+ *
  * <code>
  * /*!lex2php
  * "{@internal" {
@@ -262,27 +263,69 @@ require_once 'PHP/LexerGenerator/Lexer.php';
 
 class PHP_LexerGenerator
 {
-    private $lex;
-    private $parser;
-    private $outfile;
+    /**
+     * Plex file lexer.
+     * @var PHP_LexerGenerator_Lexer
+     */
+    private $_lex;
+
+    /**
+     * Plex file parser.
+     * @var PHP_LexerGenerator_Parser
+     */
+    private $_parser;
+
+    /**
+     * Path to the output PHP file.
+     * @var string
+     */
+    private $_outfile;
+
+    /**
+     * Debug flag. When set, Parser trace information is generated.
+     * @var boolean
+     */
+    public $debug = false;
+
+    /**
+     * Create a lexer generator and optionally generate a lexer file.
+     *
+     * @param string Optional plex file {@see PHP_LexerGenerator::create}.
+     * @param string Optional output file {@see PHP_LexerGenerator::create}.
+     */
+    function __construct($lexerfile = '', $outfile = '')
+    {
+        if ($lexerfile) {
+            $this -> create($lexerfile, $outfile);
+        }
+    }
+
     /**
      * Create a lexer file from its skeleton plex file.
      *
-     * @param string $lexerfile path to the plex file
+     * @param string Path to the plex file.
+     * @param string Optional path to output file. Default is lexerfile with
+     * extension of ".php".
      */
-    function __construct($lexerfile)
+    function create($lexerfile, $outfile = '')
     {
-        $this->lex = new PHP_LexerGenerator_Lexer(file_get_contents($lexerfile));
+        $this->_lex = new PHP_LexerGenerator_Lexer(file_get_contents($lexerfile));
         $info = pathinfo($lexerfile);
-        $this->outfile = $info['dirname'] . DIRECTORY_SEPARATOR .
-            substr($info['basename'], 0,
-            strlen($info['basename']) - strlen($info['extension'])) . 'php';
-        $this->parser = new PHP_LexerGenerator_Parser($this->outfile, $this->lex);
-        $this->parser->PrintTrace();
-        while ($this->lex->advance($this->parser)) {
-            $this->parser->doParse($this->lex->token, $this->lex->value);
+        if ($outfile) {
+            $this->outfile = $outfile;
+        } else {
+            $this->outfile = $info['dirname'] . DIRECTORY_SEPARATOR .
+                substr($info['basename'], 0,
+                strlen($info['basename']) - strlen($info['extension'])) . 'php';
         }
-        $this->parser->doParse(0, 0);
+        $this->_parser = new PHP_LexerGenerator_Parser($this->outfile, $this->_lex);
+        if ($this -> debug) {
+            $this->_parser->PrintTrace();
+        }
+        while ($this->_lex->advance($this->_parser)) {
+            $this->_parser->doParse($this->_lex->token, $this->_lex->value);
+        }
+        $this->_parser->doParse(0, 0);
     }
 }
 //$a = new PHP_LexerGenerator('/development/File_ChessPGN/ChessPGN/Lexer.plex');

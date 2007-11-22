@@ -1,0 +1,13 @@
+/*!lex2php
+DQ_SIMPLE = "simple"
+DQ_BQ = "back\\slash"
+DQ_BQ2 = "back\\\\slash"
+DQ_ESCAPE = "embed\"quote"
+DQ_SQ = "embed'quote"
+RE_SIMPLE = /x/
+SQ_SIMPLE = 'simple'
+SQ_BQ = 'back\\slash'
+SQ_BQ2 = 'back\\\\slash'
+SQ_ESCAPE = 'embed\"quote'
+SQ_DQ = 'embed"quote'
+*/

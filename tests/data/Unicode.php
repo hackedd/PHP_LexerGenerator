@@ -1,26 +1,21 @@
 <?php
-
-define('UNDEFINED',0);
-define('INTEGER',1);
-define('FLOAT',2);
-define('NUMBER',3);
-
-class Bug11808Lexer
+class UnitTestUnicodeParser
 {
-    private $counter;
+    private $_counter;
+    private $_data;
+    private $line;
+    private $state = 1;
     public $token;
     public $value;
-    private $line;
-    private $input;
-    public $state = 1;
 
-    private $prevTokenType = UNDEFINED;
+    function __construct($data) {
+        $this -> _data = $data;
+        $this -> _counter = 0;
+        $this -> line = 1;
+    }
 
-    function __construct($input)
-    {
-        $this->input = $input;
-        $this->N = 0;
-        $this->line = 1;
+    function getState() {
+        return $this -> state;
     }
 
 
@@ -57,23 +52,21 @@ class Bug11808Lexer
               1 => 0,
               2 => 0,
               3 => 0,
-              4 => 1,
-              6 => 0,
-              7 => 0,
+              4 => 0,
             );
-        if ($this->counter >= strlen($this->input)) {
+        if ($this->_counter >= strlen($this->_data)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^([ \t\n])|^([a-zA-Z]+)|^([\^*\/%+-])|^([+-]?([0-9]+\\.[0-9]+|\\.[0-9]+|[0-9]+\\.))|^([+-]?[0-9]+)|^(.)/";
+        $yy_global_pattern = '/\G([ \t\n])|\G([tT][eE][sS][tT]ï‰)|\G(\\pL+)|\G(.)/u';
 
         do {
-            if (preg_match($yy_global_pattern, substr($this->input, $this->counter), $yymatches)) {
+            if (preg_match($yy_global_pattern,$this->_data, $yymatches, null, $this->_counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                        'an empty string.  Input "' . substr($this->input,
-                        $this->counter, 5) . '... state START');
+                        ' an empty string.  Input "' . substr($this->_data,
+                        $this->_counter, 5) . '... state START');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -87,7 +80,7 @@ class Bug11808Lexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r1_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->_counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -96,21 +89,19 @@ class Bug11808Lexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->_counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->input)) {
+                    if ($this->_counter >= strlen($this->_data)) {
                         return false; // end of input
                     }
                     // skip this token
                     continue;
                 } else {
                     $yy_yymore_patterns = array(
-        1 => array(0, "^([a-zA-Z]+)|^([\^*\/%+-])|^([+-]?([0-9]+\\.[0-9]+|\\.[0-9]+|[0-9]+\\.))|^([+-]?[0-9]+)|^(.)"),
-        2 => array(0, "^([\^*\/%+-])|^([+-]?([0-9]+\\.[0-9]+|\\.[0-9]+|[0-9]+\\.))|^([+-]?[0-9]+)|^(.)"),
-        3 => array(0, "^([+-]?([0-9]+\\.[0-9]+|\\.[0-9]+|[0-9]+\\.))|^([+-]?[0-9]+)|^(.)"),
-        4 => array(1, "^([+-]?[0-9]+)|^(.)"),
-        6 => array(1, "^(.)"),
-        7 => array(1, ""),
+        1 => array(0, "\G([tT][eE][sS][tT]ï‰)|\G(\\pL+)|\G(.)"),
+        2 => array(0, "\G(\\pL+)|\G(.)"),
+        3 => array(0, "\G(.)"),
+        4 => array(0, ""),
     );
 
                     // yymore is needed
@@ -119,8 +110,8 @@ class Bug11808Lexer
                             throw new Exception('cannot do yymore for the last token');
                         }
                         $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->input, $this->counter), $yymatches)) {
+                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/u',
+                              $this->_data, $yymatches, null, $this->_counter)) {
                             $yysubmatches = $yymatches;
                             $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                             next($yymatches); // skip global match
@@ -142,23 +133,23 @@ class Bug11808Lexer
                         // process this token in the new state
                         return $this->yylex();
                     } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
+                        $this->_counter += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->input)) {
+                        if ($this->_counter >= strlen($this->_data)) {
                             return false; // end of input
                         }
                         // skip this token
                         continue;
                     } else {
                         // accept
-                        $this->counter += strlen($this->value);
+                        $this->_counter += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
                         return true;
                     }
                 }
             } else {
                 throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->counter]);
+                    ': ' . $this->_data[$this->_counter]);
             }
             break;
         } while (true);
@@ -175,34 +166,17 @@ class Bug11808Lexer
     function yy_r1_2($yy_subpatterns)
     {
 
-    echo 'word: '.$this->value.'<br>';
+    echo 'test: ' . $this -> value . '<br>';
     }
     function yy_r1_3($yy_subpatterns)
     {
 
-    if($this->prevTokenType != NUMBER)
-    {
-        return 'more'; //cycle to the next matching rule
-    }
-        echo 'operator: '.$this->value.'<br>';
+    echo 'word: ' . $this -> value . '<br>';
     }
     function yy_r1_4($yy_subpatterns)
     {
 
-    echo 'float: '.$this->value.'<br>'; // Important FLOAT must have higher precedence than INTEGER
-    $this->prevTokenType = NUMBER;
-    }
-    function yy_r1_6($yy_subpatterns)
-    {
-
-    echo 'Integer :'.$this->value.'<br>';
-    $this->prevTokenType = NUMBER;
-    }
-    function yy_r1_7($yy_subpatterns)
-    {
-
-    echo 'Unknown : '.$this->value.'<br>';
-
+    echo 'Unknown : ' . $this -> value . '<br>';
     }
 
 

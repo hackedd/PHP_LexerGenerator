@@ -27,8 +27,8 @@
  </lead>
  <date>2007-08-18</date>
  <version>
-  <release>0.3.4</release>
-  <api>0.3.0</api>
+  <release>0.4.0</release>
+  <api>0.4.0</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -254,6 +254,27 @@
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
   - fix Bug #11808: yymore broken
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2007-11-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+  - fix Bug #11916: Missing placeholder strings
+  - fix Bug #11919: Missing spaces in exception messages
+  - apply changes in #12144: 
+    * fix bugs above
+    * add case-insensitive mode
+    * Add Uncode mode (not complete)
+    * Add unit tests 
    </notes>
   </release>
  </changelog>

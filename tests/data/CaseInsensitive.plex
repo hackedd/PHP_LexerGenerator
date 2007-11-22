@@ -1,0 +1,55 @@
+<?php
+class UnitTestCaseInsensitiveParser
+{
+    private $_counter;
+    private $_data;
+    private $line;
+    private $state = 1;
+    public $token;
+    public $value;
+
+    function __construct($data) {
+        $this -> _data = $data;
+        $this -> _counter = 0;
+        $this -> line = 1;
+    }
+
+    function getState() {
+        return $this -> state;
+    }
+
+/*!lex2php
+%counter $this->_counter
+%input $this->_data
+%line $this->line
+%token $this->token
+%value $this->value
+%caseinsensitive 1
+WHITESPACE = /[ \t\n]/
+TEST = /test/
+WORD = /[A-Z]+/
+UNKNOWN = /./
+*/
+
+/*!lex2php
+%statename START
+WHITESPACE {
+    return false; //ignore this token
+}
+
+TEST {
+    echo 'test: ' . $this -> value . '<br>';
+}
+
+WORD {
+    echo 'word: ' . $this -> value . '<br>';
+}
+
+UNKNOWN {
+    echo 'Unknown : ' . $this -> value . '<br>';
+}
+*/
+
+}
+
+?>

@@ -1,0 +1,54 @@
+<?php
+class UnitTestCommentsParser
+{
+    private $_counter;
+    private $_data;
+    private $line;
+    private $state = 1;
+    public $token;
+    public $value;
+
+    function __construct($data) {
+        $this -> _data = $data;
+        $this -> _counter = 0;
+        $this -> line = 1;
+    }
+
+    function getState() {
+        return $this -> state;
+    }
+
+/*!lex2php
+// Basic setup
+%counter $this->_counter
+%input $this->_data
+%line $this->line
+%token $this->token
+%value $this->value
+%caseinsensitive 1
+
+// Sub-Patterns
+WHITESPACE = /[ \t\n]/
+WORD = /[A-Z]+/
+UNKNOWN = /./
+*/
+
+/*!lex2php
+%statename START
+WHITESPACE {
+    return false; //ignore this token
+}
+
+// we found a word
+WORD {
+    echo 'word: ' . $this -> value . '<br>';
+}
+
+UNKNOWN {
+    echo 'Unknown : ' . $this -> value . '<br>';
+}
+*/
+
+}
+
+?>

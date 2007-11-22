@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Notes on unit tests for PHP_LexerGenerator</title>
+</head>
+<body>
+<h1>Notes on unit tests for PHP_LexerGenerator</h1>
+<p>by Alan Langford &lt;jal@ambitonline.com&gt;</p>
+<p>
+AllTests.php runs the full suite of tests using PHPUnit from phpunit.de.
+</p><p>
+The current test cases are:
+</p>
+
+
+<h2>LexerTest</h2>
+<p>These tests compare the token stream from a PHP_LexerGenerator_Lexer object with a 
+known baseline. The intent of these tests is to thoroughly exercise specific code points 
+within the parser.
+</p>
+<p>The lexerBaselineGenerator.php script can be used to create a new baseline when required.
+Usage is:
+</p>
+<code>php lexerBaselineGenrator plexfile baselinefile</code>
+<p>The baseline file is generated from the input plex file. The baseline is a text file 
+that contains a serialized version of the lexer token stream and some other lexer 
+state data.
+</p>
+
+
+<h2>LexerGeneratorTest</h2>
+<p>These tests exercise both the internal lexer and parser, either through comparison 
+of the generated PHP file with expected output, or by executing phpt style tests. 
+Data required to support the tests is stored in the data subdirectory. The .plex files 
+are the files being tested; the .expect.php files are the expected outputs, the .php 
+files are the actual output, and if there is a difference between actual and expected, 
+a .diff file will be present to highlight the discrepancies.
+</p>
+<h3>Bug Reports</h3>
+<p>Two types of bug report are handled. Bugs with a .plex file have a corresponding PHP 
+created, and the output is compared to the .php file in the tests directory. If a 
+difference is found then the generated PHP file is left in the data directory, and a 
+.diff file is created.
+</p>
+<p>If a bug also has a .phpt file, then the code and expected output are extracted 
+from the test and run. No diff file is created. <strong>Note:</strong> The initial 
+implementation of the .phpt file handler is extremely crude. If the phpt file contains 
+anything unexpected, the test may fail due to a test parsing error. 
+</p>
+</body>
+</html>

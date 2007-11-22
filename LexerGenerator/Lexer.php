@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP_LexerGenerator, a php 5 lexer generator.
- * 
+ *
  * This lexer generator translates a file in a format similar to
  * re2c ({@link http://re2c.org}) and translates it into a PHP 5-based lexer
  *
@@ -24,7 +24,7 @@
 require_once 'PHP/LexerGenerator/Parser.php';
 /**
  * Token scanner for plex files.
- * 
+ *
  * This scanner detects comments beginning with "/*!lex2php" and
  * then returns their components (processing instructions, patterns, strings
  * action code, and regexes)
@@ -61,14 +61,15 @@ class PHP_LexerGenerator_Lexer
      */
     public $value;
 
-    const PHPCODE = PHP_LexerGenerator_Parser::PHPCODE;
-    const COMMENTSTART = PHP_LexerGenerator_Parser::COMMENTSTART;
-    const COMMENTEND = PHP_LexerGenerator_Parser::COMMENTEND;
-    const QUOTE = PHP_LexerGenerator_Parser::QUOTE;
-    const PATTERN = PHP_LexerGenerator_Parser::PATTERN;
     const CODE = PHP_LexerGenerator_Parser::CODE;
-    const SUBPATTERN = PHP_LexerGenerator_Parser::SUBPATTERN;
+    const COMMENTEND = PHP_LexerGenerator_Parser::COMMENTEND;
+    const COMMENTSTART = PHP_LexerGenerator_Parser::COMMENTSTART;
+    const PATTERN = PHP_LexerGenerator_Parser::PATTERN;
+    const PHPCODE = PHP_LexerGenerator_Parser::PHPCODE;
     const PI = PHP_LexerGenerator_Parser::PI;
+    const QUOTE = PHP_LexerGenerator_Parser::QUOTE;
+    const SINGLEQUOTE = PHP_LexerGenerator_Parser::SINGLEQUOTE;
+    const SUBPATTERN = PHP_LexerGenerator_Parser::SUBPATTERN;
 
     /**
      * prepare scanning
@@ -157,6 +158,23 @@ class PHP_LexerGenerator_Lexer
      */
     private function lexDeclare()
     {
+        while (true) {
+            $this -> skipWhitespaceEol();
+            if (
+                $this->N + 1 >= strlen($this->data)
+                || $this->data[$this->N] != '/'
+                || $this->data[$this->N + 1] != '/'
+            ) {
+                break;
+            }
+            // Skip single-line comment
+            while (
+                $this->N < strlen($this->data)
+                && $this->data[$this->N] != "\n"
+            ) {
+                ++$this->N;
+            }
+        }
         if ($this->data[$this->N] == '*' && $this->data[$this->N + 1] == '/') {
             $this->state = 'StartNonDeclare';
             $this->value = '*/';
@@ -164,23 +182,22 @@ class PHP_LexerGenerator_Lexer
             $this->token = self::COMMENTEND;
             return true;
         }
-        if (preg_match('/^%([a-z]+)/', substr($this->data, $this->N), $token)) {
+        if (preg_match('/\G%([a-z]+)/', $this->data, $token, null, $this->N)) {
             $this->value = $token[1];
             $this->N += strlen($token[1]) + 1;
             $this->state = 'DeclarePI';
             $this->token = self::PI;
             return true;
         }
-        if (preg_match('/^[a-zA-Z_]+/', substr($this->data, $this->N), $token)) {
+        if (preg_match('/\G[a-zA-Z_][a-zA-Z0-9_]*/', $this->data, $token, null, $this->N)) {
             $this->value = $token[0];
             $this->token = self::PATTERN;
             $this->N += strlen($token[0]);
             $this->state = 'DeclareEquals';
             return true;
-        } else {
-            $this->error('expecting declaration of sub-patterns');
-            return false;
         }
+        $this->error('expecting declaration of sub-patterns');
+        return false;
     }
 
     /**
@@ -189,11 +206,7 @@ class PHP_LexerGenerator_Lexer
      */
     private function lexDeclarePI()
     {
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' ||
-                 $this->data[$this->N] == "\t")) {
-            $this->N++; // skip whitespace
-        }
+        $this -> skipWhitespace();
         if ($this->data[$this->N] == "\n") {
             $this->N++;
             $this->state = 'Declare';
@@ -203,7 +216,7 @@ class PHP_LexerGenerator_Lexer
         if ($this->data[$this->N] == '{') {
             return $this->lexCode();
         }
-        if (!preg_match("/[^\n]+/", substr($this->data, $this->N), $token)) {
+        if (!preg_match("/\G[^\n]+/", $this->data, $token, null, $this->N)) {
             $this->error('Unexpected end of file');
             return false;
         }
@@ -219,11 +232,7 @@ class PHP_LexerGenerator_Lexer
      */
     private function lexDeclarePIRule()
     {
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' ||
-                 $this->data[$this->N] == "\t")) {
-            $this->N++; // skip whitespace
-        }
+        $this -> skipWhitespace();
         if ($this->data[$this->N] == "\n") {
             $this->N++;
             $this->state = 'Rule';
@@ -233,7 +242,7 @@ class PHP_LexerGenerator_Lexer
         if ($this->data[$this->N] == '{') {
             return $this->lexCode();
         }
-        if (!preg_match("/[^\n]+/", substr($this->data, $this->N), $token)) {
+        if (!preg_match("/\G[^\n]+/", $this->data, $token, null, $this->N)) {
             $this->error('Unexpected end of file');
             return false;
         }
@@ -249,10 +258,7 @@ class PHP_LexerGenerator_Lexer
      */
     private function lexDeclareEquals()
     {
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' || $this->data[$this->N] == "\t")) {
-            $this->N++; // skip whitespace
-        }
+        $this -> skipWhitespace();
         if ($this->N >= strlen($this->data)) {
             $this->error('unexpected end of input, expecting "=" for sub-pattern declaration');
         }
@@ -262,10 +268,7 @@ class PHP_LexerGenerator_Lexer
         }
         $this->N++;
         $this->state = 'DeclareRightside';
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' || $this->data[$this->N] == "\t")) {
-            $this->N++; // skip whitespace
-        }
+        $this -> skipWhitespace();
         if ($this->N >= strlen($this->data)) {
             $this->error('unexpected end of file, expecting right side of sub-pattern declaration');
             return false;
@@ -288,11 +291,10 @@ class PHP_LexerGenerator_Lexer
         if ($this->data[$this->N] == '"') {
             return $this->lexQuote();
         }
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' ||
-                 $this->data[$this->N] == "\t")) {
-            $this->N++; // skip all whitespace
+        if ($this->data[$this->N] == '\'') {
+            return $this->lexQuote('\'');
         }
+        $this -> skipWhitespace();
         // match a pattern
         $test = $this->data[$this->N];
         $token = $this->N + 1;
@@ -325,7 +327,7 @@ class PHP_LexerGenerator_Lexer
      * lexer for quoted literals
      * @return boolean
      */
-    private function lexQuote()
+    private function lexQuote($quote = '"')
     {
         $token = $this->N + 1;
         $a = 0;
@@ -333,7 +335,7 @@ class PHP_LexerGenerator_Lexer
             if ($a++) {
                 $token++;
             }
-            $token = strpos($this->data, '"', $token);
+            $token = strpos($this->data, $quote, $token);
         } while ($token !== false && $token < strlen($this->data) &&
                   ($this->data[$token - 1] == '\\' && $this->data[$token - 2] != '\\'));
         if ($token === false) {
@@ -345,10 +347,14 @@ class PHP_LexerGenerator_Lexer
             return false;
         }
         $this->value = substr($this->data, $this->N + 1, $token - $this->N - 1);
-        $this->value = str_replace('\\"', '"', $this->value);
+        $this->value = str_replace('\\'.$quote, $quote, $this->value);
         $this->value = str_replace('\\\\', '\\', $this->value);
         $this->N = $token + 1;
-        $this->token = self::QUOTE;
+        if ($quote == '\'' ) {
+            $this->token = self::SINGLEQUOTE;
+        } else {
+            $this->token = self::QUOTE;
+        }
         return true;
     }
 
@@ -358,15 +364,35 @@ class PHP_LexerGenerator_Lexer
      */
     private function lexRule()
     {
-        while ($this->N < strlen($this->data) && 
-                ($this->data[$this->N] == ' ' ||
-                 $this->data[$this->N] == "\t" ||
-                 $this->data[$this->N] == "\n")) {
-            if ($this->data[$this->N] == "\n") {
+        while (
+            $this->N < strlen($this->data)
+            && (
+                $this->data[$this->N] == ' '
+                || $this->data[$this->N] == "\t"
+                || $this->data[$this->N] == "\n"
+            ) || (
+                $this->N < strlen($this->data) - 1
+                && $this->data[$this->N] == '/'
+                && $this->data[$this->N + 1] == '/'
+            )
+        ) {
+            if ( $this->data[$this->N] == '/' && $this->data[$this->N + 1] == '/' ) {
+                // Skip single line comments
+                $next_newline = strpos($this->data, "\n", $this->N) + 1;
+                if ($next_newline) {
+                    $this->N = $next_newline;
+                } else {
+                    $this->N = sizeof($this->data);
+                }
                 $this->line++;
+            } else {
+                if ($this->data[$this->N] == "\n") {
+                    $this->line++;
+                }
+                $this->N++; // skip all whitespace
             }
-            $this->N++; // skip all whitespace
         }
+
         if ($this->N >= strlen($this->data)) {
             $this->error('unexpected end of input, expecting rule declaration');
         }
@@ -377,7 +403,10 @@ class PHP_LexerGenerator_Lexer
             $this->token = self::COMMENTEND;
             return true;
         }
-        if (preg_match('/^%([a-z]+)/', substr($this->data, $this->N), $token)) {
+        if ($this->data[$this->N] == '\'') {
+            return $this->lexQuote('\'');
+        }
+        if (preg_match('/\G%([a-zA-Z_]+)/', $this->data, $token, null, $this->N)) {
             $this->value = $token[1];
             $this->N += strlen($token[1]) + 1;
             $this->state = 'DeclarePIRule';
@@ -390,7 +419,7 @@ class PHP_LexerGenerator_Lexer
         if ($this->data[$this->N] == '"') {
             return $this->lexQuote();
         }
-        if (preg_match('/^[a-zA-Z_]+/', substr($this->data, $this->N), $token)) {
+        if (preg_match('/\G[a-zA-Z_][a-zA-Z0-9_]*/', $this->data, $token, null, $this->N)) {
             $this->value = $token[0];
             $this->N += strlen($token[0]);
             $this->token = self::SUBPATTERN;
@@ -448,8 +477,42 @@ class PHP_LexerGenerator_Lexer
     }
 
     /**
+     * Skip whitespace characters
+     */
+    private function skipWhitespace() {
+        while (
+            $this->N < strlen($this->data)
+            && (
+                $this->data[$this->N] == ' '
+                || $this->data[$this->N] == "\t"
+            )
+        ) {
+            $this->N++; // skip whitespace
+        }
+    }
+
+    /**
+     * Skip whitespace and EOL characters
+     */
+    private function skipWhitespaceEol() {
+        while (
+            $this->N < strlen($this->data)
+            && (
+                $this->data[$this->N] == ' '
+                || $this->data[$this->N] == "\t"
+                || $this->data[$this->N] == "\n"
+            )
+        ) {
+            if ($this->data[$this->N] == "\n") {
+                ++$this -> line;
+            }
+            $this->N++; // skip whitespace
+        }
+    }
+
+    /**
      * Primary scanner
-     * 
+     *
      * In addition to lexing, this properly increments the line number of lexing.
      * This calls the proper sub-lexer based on the parser state
      * @param unknown_type $parser

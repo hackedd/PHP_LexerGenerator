@@ -1,6 +1,6 @@
 <?php
 require_once 'PHP/LexerGenerator/Regex/Parser.php';
-class PHP_LexerGenerator_Regex_Lexer
+class TestRegexLexer
 {
     const MATCHSTART = PHP_LexerGenerator_Regex_Parser::MATCHSTART;
     const MATCHEND = PHP_LexerGenerator_Regex_Parser::MATCHEND;

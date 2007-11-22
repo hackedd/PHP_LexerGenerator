@@ -1,0 +1,22 @@
+a:4:{s:6:"source";s:1:"/";s:6:"output";s:0:"";s:6:"states";a:14:{i:0;a:3:{s:4:"line";i:20;s:5:"token";i:1;s:5:"value";s:353:"class UnitTestMinimalLexer
+{
+    private $_counter;
+    private $_data;
+    private $line;
+    private $state = 1;
+    public $token;
+    public $value;
+
+    function __construct($data) {
+        $this -> _data = $data;
+        $this -> _counter = 0;
+        $this -> line = 1;
+    }
+    
+    function getState() {
+        return $this -> state;
+    }
+
+";}i:1;a:3:{s:4:"line";i:21;s:5:"token";i:2;s:5:"value";s:11:"/*!lex2php
+";}i:2;a:3:{s:4:"line";i:21;s:5:"token";i:4;s:5:"value";s:7:"counter";}i:3;a:3:{s:4:"line";i:21;s:5:"token";i:5;s:5:"value";s:15:"$this->_counter";}i:4;a:3:{s:4:"line";i:22;s:5:"token";i:4;s:5:"value";s:5:"input";}i:5;a:3:{s:4:"line";i:22;s:5:"token";i:5;s:5:"value";s:12:"$this->_data";}i:6;a:3:{s:4:"line";i:23;s:5:"token";i:4;s:5:"value";s:4:"line";}i:7;a:3:{s:4:"line";i:23;s:5:"token";i:5;s:5:"value";s:11:"$this->line";}i:8;a:3:{s:4:"line";i:24;s:5:"token";i:4;s:5:"value";s:5:"token";}i:9;a:3:{s:4:"line";i:24;s:5:"token";i:5;s:5:"value";s:12:"$this->token";}i:10;a:3:{s:4:"line";i:25;s:5:"token";i:4;s:5:"value";s:5:"value";}i:11;a:3:{s:4:"line";i:25;s:5:"token";i:5;s:5:"value";s:12:"$this->value";}i:12;a:3:{s:4:"line";i:26;s:5:"token";i:3;s:5:"value";s:2:"*/";}i:13;a:3:{s:4:"line";i:27;s:5:"token";i:1;s:5:"value";s:2:"
+}";}}s:6:"errors";i:0;}
