@@ -15,7 +15,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'LexerGenerator_AllTests::main');
 }
 
-require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'PHP/LexerGenerator/Lexer.php';
@@ -37,8 +36,8 @@ class LexerGenerator_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('PEAR - PHP_LexerGenerator');
 
-        $suite->addTestFile('LexerTest.php');
-        $suite->addTestFile('LexerGeneratorTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/LexerTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/LexerGeneratorTest.php');
 
         return $suite;
     }

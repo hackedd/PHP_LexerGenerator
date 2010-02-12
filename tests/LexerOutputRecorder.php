@@ -39,7 +39,7 @@ class LexerOutputRecorder
             break;
 
             case 'file': {
-                $lex = new PHP_LexerGenerator_Lexer(file_get_contents($plex));
+                $lex = new PHP_LexerGenerator_Lexer(file_get_contents(dirname(__FILE__) . '/' . $plex));
                 $result['source'] = str_replace($plex, '\\', '/');
             }
             break;

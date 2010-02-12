@@ -57,7 +57,7 @@ class UnitTestUnicodeParser
         if ($this->_counter >= strlen($this->_data)) {
             return false; // end of input
         }
-        $yy_global_pattern = '/\G([ \t\n])|\G([tT][eE][sS][tT]ï‰)|\G(\\pL+)|\G(.)/u';
+        $yy_global_pattern = '/\G([ \t\n])|\G([tT][eE][sS][tT]Ï‰)|\G(\\pL+)|\G(.)/u';
 
         do {
             if (preg_match($yy_global_pattern,$this->_data, $yymatches, null, $this->_counter)) {
@@ -98,7 +98,7 @@ class UnitTestUnicodeParser
                     continue;
                 } else {
                     $yy_yymore_patterns = array(
-        1 => array(0, "\G([tT][eE][sS][tT]ï‰)|\G(\\pL+)|\G(.)"),
+        1 => array(0, "\G([tT][eE][sS][tT]Ï‰)|\G(\\pL+)|\G(.)"),
         2 => array(0, "\G(\\pL+)|\G(.)"),
         3 => array(0, "\G(.)"),
         4 => array(0, ""),

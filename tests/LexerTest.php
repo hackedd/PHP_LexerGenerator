@@ -21,21 +21,21 @@ class LexerTest extends PHPUnit_Framework_TestCase {
     public function testMinimalLexer() {
         $recorder = new LexerOutputRecorder();
         $testResult = $recorder -> process('file', 'data/MinimalLexer.plex');
-        $expected = unserialize(file_get_contents('data/MinimalLexer.expect.dat'));
+        $expected = unserialize(file_get_contents(dirname(__FILE__) . '/data/MinimalLexer.expect.dat'));
         $this->assertEquals($testResult, $expected);
     }
 
     public function testDeclareEquals() {
         $recorder = new LexerOutputRecorder();
         $testResult = $recorder -> process('file', 'data/DeclareEquals.plex');
-        $expected = unserialize(file_get_contents('data/DeclareEquals.expect.dat'));
+        $expected = unserialize(file_get_contents(dirname(__FILE__) . '/data/DeclareEquals.expect.dat'));
         $this->assertEquals($testResult, $expected);
     }
 
     public function testComments() {
         $recorder = new LexerOutputRecorder();
         $testResult = $recorder -> process('file', 'data/Comments.plex');
-        $expected = unserialize(file_get_contents('data/Comments.expect.dat'));
+        $expected = unserialize(file_get_contents(dirname(__FILE__) . '/data/Comments.expect.dat'));
         $this->assertEquals($testResult, $expected);
     }
 
