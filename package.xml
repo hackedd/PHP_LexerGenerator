@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>PHP_LexerGenerator</name>
  <channel>pear.php.net</channel>
  <summary>translate lexer files in lex2php format into a PHP 5 lexer</summary>
- <description>
-  Translate a lexer file with a format similar to re2c (http://re2c.org)
+ <description>Translate a lexer file with a format similar to re2c (http://re2c.org)
   into a PHP 5 lexer for use with a parser.
   
   Unlike re2c (as of re2c version 0.11), generated lexers are state-aware
   out of the box.
   
   Generated lexers are very efficient, more than twice as efficient as other
-  alternatives like csLex (written in C#) because they utilize PHP's
+  alternatives like csLex (written in C#) because they utilize PHP&apos;s
   built-in Perl-compatible regular expressions to lex for tokens.
 
   Now in version 0.3.0+, with processing instruction %longestmatch, generated
   lexers will always pick the longest string to match, rather than the first.
   Generated lexers are slightly slower, but match behavior of legacy lexers like
-  flex, lex, re2c.
- </description>
+  flex, lex, re2c.</description>
  <lead>
   <name>Greg Beaver</name>
   <user>cellog</user>
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-08-18</date>
+ <date>2010-10-25</date>
+ <time>21:52:06</time>
  <version>
   <release>0.4.0</release>
   <api>0.4.0</api>
@@ -36,53 +35,86 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-  - fix Bug #11808: yymore broken
+QA release
+Request #11914 	Single line comments
+Request #11917 	Faster regexp matching with \G instead of substr()
+Bug #11919 	Missing spaces in exception messages
+Bug #12144 	Integrated patch + unit test
+Bug #12638 	Undefined offset: 0 in PHP/LexerGenerator/Parser.php on line 390
+Request #11912 	Case-insensitive literal strings
  </notes>
  <contents>
-  <dir baseinstalldir="PHP" name="/">
-   <dir name="examples">
-    <file name="TestLexer.php" role="doc"/>
-    <file name="TestLexer.plex" role="doc"/>
-    <file name="longestfirst.php" role="doc"/>
-    <file name="longestfirst.plex" role="doc"/>
-   </dir>
-   <dir name="LexerGenerator">
-    <dir name="Regex">
-     <file name="Lexer.php" role="php"/>
-     <file name="Parser.php" role="php"/>
-    </dir>
-    <file name="cli.php" role="php"/>
-    <file name="Exception.php" role="php"/>
-    <file name="Lexer.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file name="Parser.out" role="data"/>
-    <file name="Parser.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file name="Parser.y" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /LexerGenerator -->
-   <file name="LexerGenerator.php" role="php">
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="8466ee060d3bf043ca447b1bff598c28" name="examples/Lexer.php" role="doc" />
+   <file baseinstalldir="/" md5sum="75b5036208a54074d7631e75c9c7a0bb" name="examples/Lexer.plex" role="doc" />
+   <file baseinstalldir="/" md5sum="5f437c789d262e1b1f6406289d6da73b" name="examples/longestfirst.php" role="doc" />
+   <file baseinstalldir="/" md5sum="5cfa147d8014577c09b8c0d0018ce44b" name="examples/longestfirst.plex" role="doc" />
+   <file baseinstalldir="/" md5sum="b219f07ea975b173fb19a703ea95a2c1" name="examples/TestLexer.php" role="doc" />
+   <file baseinstalldir="/" md5sum="f823fc3b1692b85edd32c63496740df3" name="examples/TestLexer.plex" role="doc" />
+   <file baseinstalldir="/" md5sum="b5c7d0b73d66f4c9fb56ad3f9e01c426" name="examples/usage.php" role="doc" />
+   <file baseinstalldir="/" md5sum="ea435e8bce6aa32f8ae21b2bd0697905" name="PHP/LexerGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="1670149b12879dbc102dad100e9e727c" name="PHP/LexerGenerator/cli.php" role="php" />
+   <file baseinstalldir="/" md5sum="bab1ea910c734c9686d0bc8be0344337" name="PHP/LexerGenerator/Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="b9a8cb9a4280bd31f8a71d5e8e8ea722" name="PHP/LexerGenerator/Lexer.php" role="php" />
+   <file baseinstalldir="/" md5sum="be6f0087cdab95a8a38c504967c57dc0" name="PHP/LexerGenerator/Parser.out" role="data" />
+   <file baseinstalldir="/" md5sum="9051d62fbcf55099929ad0fcec3a76b0" name="PHP/LexerGenerator/Parser.php" role="php" />
+   <file baseinstalldir="/" md5sum="2b9368ffa42230818f5eab9cf5b8bdd4" name="PHP/LexerGenerator/Parser.y" role="data" />
+   <file baseinstalldir="/" md5sum="2c3400059dab2a82271f42ac6a6453d7" name="PHP/LexerGenerator/Regex/Lexer.php" role="php" />
+   <file baseinstalldir="/" md5sum="b16227b87ffec463ae8c65daed6afddc" name="PHP/LexerGenerator/Regex/Lexer.plex" role="data" />
+   <file baseinstalldir="/" md5sum="63bf066e5585e56c174d63247fb33197" name="PHP/LexerGenerator/Regex/Parser.out" role="data" />
+   <file baseinstalldir="/" md5sum="92e2eeefa236e7d481132aa7d1ee1103" name="PHP/LexerGenerator/Regex/Parser.php" role="php" />
+   <file baseinstalldir="/" md5sum="74e4882eb23192c9e730c0d924cca711" name="PHP/LexerGenerator/Regex/Parser.y" role="data" />
+   <file baseinstalldir="/" md5sum="c0ae135b8b7cf01dae978a11c67ef3e8" name="tests/AllTests.php" role="test" />
+   <file baseinstalldir="/" md5sum="0ec33b7cc2d8ea87a1ec43d97912ab80" name="tests/bug8259.php" role="test" />
+   <file baseinstalldir="/" md5sum="aba078f6209959ece45406b5bba23c99" name="tests/bug8259.plex" role="test" />
+   <file baseinstalldir="/" md5sum="9235d5447ca176d0c91365f897048621" name="tests/bug8618.php" role="test" />
+   <file baseinstalldir="/" md5sum="3680bb51b5191f8e2e165252076f899c" name="tests/bug8618.plex" role="test" />
+   <file baseinstalldir="/" md5sum="6acf2ef4e49aa339a86cd7b44a763ea6" name="tests/bug9230.php" role="test" />
+   <file baseinstalldir="/" md5sum="f6cd30c7e25bdd5da8c2828620489bf6" name="tests/bug9230.plex" role="test" />
+   <file baseinstalldir="/" md5sum="825d18fce557aae789bc87a5b7d668c8" name="tests/bug9231.php" role="test" />
+   <file baseinstalldir="/" md5sum="c466f12e5fd7eacffb57fc661d6d6b27" name="tests/bug9231.plex" role="test" />
+   <file baseinstalldir="/" md5sum="06233f2a7f71739efcbbac304a540790" name="tests/bug11808.php" role="test" />
+   <file baseinstalldir="/" md5sum="8e035389dc64dcff3d9b4a5b0c51b650" name="tests/bug11808.plex" role="test" />
+   <file baseinstalldir="/" md5sum="4ca3163ef5766ca60c7aefb1164f4c19" name="tests/lexerBaselineGenerator.php" role="test" />
+   <file baseinstalldir="/" md5sum="32bcaf4f4407da372d3030a61448ca22" name="tests/LexerGeneratorTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="150723e8b9cefae3ec02c87654297967" name="tests/LexerOutputRecorder.php" role="test" />
+   <file baseinstalldir="/" md5sum="93ef48244d10942e796b6e95fedec84b" name="tests/LexerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="12d4f926f0ec00b0e0cebc67bfb47f76" name="tests/readme.html" role="test" />
+   <file baseinstalldir="/" md5sum="5374c8d7188c6849ced487d826ace99b" name="tests/test_bug11808.phpt" role="test" />
+   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="tests/data/bug9231.php" role="test" />
+   <file baseinstalldir="/" md5sum="4d112597ba0af353ba6386dc16993c91" name="tests/data/CaseInsensitive.expect.php" role="test" />
+   <file baseinstalldir="/" md5sum="4d112597ba0af353ba6386dc16993c91" name="tests/data/CaseInsensitive.php" role="test" />
+   <file baseinstalldir="/" md5sum="f47c134248cbcafdf57c8e3effb07570" name="tests/data/CaseInsensitive.plex" role="test" />
+   <file baseinstalldir="/" md5sum="052c2b5de22212f3f65373bc11f1d6a2" name="tests/data/Comments.expect.dat" role="test" />
+   <file baseinstalldir="/" md5sum="0d63489c52deb8c978f3a4a1599ed1e0" name="tests/data/Comments.plex" role="test" />
+   <file baseinstalldir="/" md5sum="ad9e0297ded608f313cac23fad5babfa" name="tests/data/DeclareEquals.expect.dat" role="test" />
+   <file baseinstalldir="/" md5sum="b961d70b7b50d8f72b1ae29f750c06f1" name="tests/data/DeclareEquals.plex" role="test" />
+   <file baseinstalldir="/" md5sum="2933d5ca1408b6c3b37846870261a102" name="tests/data/MinimalLexer.expect.dat" role="test" />
+   <file baseinstalldir="/" md5sum="ea3f29c005740e2e82d6801ab9bd33a3" name="tests/data/MinimalLexer.plex" role="test" />
+   <file baseinstalldir="/" md5sum="a50bafe6d39832700a86a397678010cc" name="tests/data/RegexLexer.expect.php" role="test" />
+   <file baseinstalldir="/" md5sum="a50bafe6d39832700a86a397678010cc" name="tests/data/RegexLexer.php" role="test" />
+   <file baseinstalldir="/" md5sum="b73c7df0c7cd170cb62bc21250376c88" name="tests/data/RegexLexer.plex" role="test" />
+   <file baseinstalldir="/" md5sum="2ea3dcd7f7338bbdc04d6fad9c6c97d8" name="tests/data/SingleQuote.expect.php" role="test" />
+   <file baseinstalldir="/" md5sum="2ea3dcd7f7338bbdc04d6fad9c6c97d8" name="tests/data/SingleQuote.php" role="test" />
+   <file baseinstalldir="/" md5sum="611fa748b15e490be2a8fc4da2449f23" name="tests/data/SingleQuote.plex" role="test" />
+   <file baseinstalldir="/" md5sum="2a63a612003895717bf6df1c4adc3f7c" name="tests/data/Unicode.diff" role="test" />
+   <file baseinstalldir="/" md5sum="917192c23cb44e62b46a598b949e6eb0" name="tests/data/Unicode.expect.php" role="test" />
+   <file baseinstalldir="/" md5sum="917192c23cb44e62b46a598b949e6eb0" name="tests/data/Unicode.php" role="test" />
+   <file baseinstalldir="/" md5sum="d7562521dab785b21face1ddb8fad3c6" name="tests/data/Unicode.plex" role="test" />
+   <file baseinstalldir="/" md5sum="0a8c30717e4d6b2400b71b2d7fce4c74" name="tutorials/PHP_LexerGenerator/PHP_LexerGenerator.pkg" role="data" />
+   <file baseinstalldir="/" md5sum="8b31288530647784efcdcf776250c000" name="docs.ini" role="data" />
+   <file baseinstalldir="/" md5sum="696cb31f30cbd4e28f959c04355c2316" name="LICENSE.txt" role="doc" />
+   <file baseinstalldir="" md5sum="3e0a2fcf6bc63382b746d243c9a6d81a" name="plex" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+    <tasks:unixeol />
    </file>
-   <file name="LICENSE.txt" role="doc"/>
-   <file name="plex" role="script" baseinstalldir="">
-    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config"/>
-    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
-    <tasks:unixeol/>
+   <file baseinstalldir="" md5sum="afcc8d1c1b81801d09707c852043969e" name="plex.bat" role="script">
+    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
+    <tasks:windowseol />
    </file>
-   <file name="plex.bat" role="script" baseinstalldir="">
-    <tasks:replace from="@php-bin@" to="php_bin" type="pear-config"/>
-    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config"/>
-    <tasks:windowseol/>
-   </file>
-   <dir name="tests">
-    <file name="bug8259.plex" role="test" />
-    <file name="bug8259.php" role="test" />
-   </dir> <!-- /tests -->
-  </dir> <!-- / -->
+  </dir>
  </contents>
  <dependencies>
   <required>
@@ -94,7 +126,12 @@
    </pearinstaller>
   </required>
  </dependencies>
- <phprelease />
+ <phprelease>
+  <filelist>
+   <install as="plex" name="plex" />
+   <install as="plex.bat" name="plex.bat" />
+  </filelist>
+ </phprelease>
  <changelog>
   <release>
    <version>
@@ -107,7 +144,9 @@
    </stability>
    <date>2006-06-24</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>initial release</notes>
+   <notes>
+initial release
+   </notes>
   </release>
   <release>
    <version>
@@ -121,10 +160,10 @@
    <date>2006-06-30</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - add &quot;plex&quot; command-line for lexer generation
-  - add regex validation
-    * it's now possible to use lookaheads, back-references, and subpatterns.
-  - use PEAR_Exception
+- add &quot;plex&quot; command-line for lexer generation
+- add regex validation
+  * it&apos;s now possible to use lookaheads, back-references, and subpatterns.
+- use PEAR_Exception
    </notes>
   </release>
   <release>
@@ -139,11 +178,11 @@
    <date>2006-07-18</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - allow underscore in subpattern names
-  - fix documentation for class
-  - fix bug in regex parsing where backreferences could not have a multiplier
-    like +, *, or {0,1}
-  - disallow (?R), this can't work in a multi-regex lexer generator, unfortunately
+- allow underscore in subpattern names
+- fix documentation for class
+- fix bug in regex parsing where backreferences could not have a multiplier
+  like +, *, or {0,1}
+- disallow (?R), this can&apos;t work in a multi-regex lexer generator, unfortunately
    </notes>
   </release>
   <release>
@@ -158,8 +197,8 @@
    <date>2006-08-13</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #8259: Strange regex generated
-  - fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
+- fix Bug #8259: Strange regex generated
+- fix Bug #8593: if no statename &quot;const 1=1&quot; inserted
    </notes>
   </release>
   <release>
@@ -174,7 +213,7 @@
    <date>2006-10-02</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #8618: null causes regex to break
+- fix Bug #8618: null causes regex to break
    </notes>
   </release>
   <release>
@@ -189,9 +228,9 @@
    <date>2006-10-02</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #9006: wrong replacements for plex script (Hartmut Holzgraefe)
-  - fix Bug #9007: yymore does not honor return value &quot;true&quot; to change state
-  - implement Request #8879: lexer not picking longest match
+- fix Bug #9006: wrong replacements for plex script (Hartmut Holzgraefe)
+- fix Bug #9007: yymore does not honor return value &quot;true&quot; to change state
+- implement Request #8879: lexer not picking longest match
    </notes>
   </release>
   <release>
@@ -206,9 +245,9 @@
    <date>2006-12-15</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #9211: Typos
-  - fix Bug #9230: Escape sequences
-  - fix Bug #9231: Non-greedy regex extension
+- fix Bug #9211: Typos
+- fix Bug #9230: Escape sequences
+- fix Bug #9231: Non-greedy regex extension
    </notes>
   </release>
   <release>
@@ -223,7 +262,7 @@
    <date>2007-02-17</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #9892: dirname(__FILE__) should not be used for include/require
+- fix Bug #9892: dirname(__FILE__) should not be used for include/require
    </notes>
   </release>
   <release>
@@ -238,7 +277,7 @@
    <date>2007-06-17</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #11132: calls to substr_count had args in wrong order [urkle]
+- fix Bug #11132: calls to substr_count had args in wrong order [urkle]
    </notes>
   </release>
   <release>
@@ -253,7 +292,7 @@
    <date>2007-08-18</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #11808: yymore broken
+- fix Bug #11808: yymore broken
    </notes>
   </release>
   <release>
@@ -265,16 +304,10 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2007-11-21</date>
+   <date>2010-10-25</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-  - fix Bug #11916: Missing placeholder strings
-  - fix Bug #11919: Missing spaces in exception messages
-  - apply changes in #12144: 
-    * fix bugs above
-    * add case-insensitive mode
-    * Add Uncode mode (not complete)
-    * Add unit tests 
+- fix Bug #11808: yymore broken
    </notes>
   </release>
  </changelog>
