@@ -28,7 +28,6 @@ class LexerGenerator_AllTests
 {
     public static function main()
     {
-        error_reporting(E_ALL|E_STRICT);
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 
