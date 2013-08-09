@@ -6,6 +6,7 @@ class blah {
 %token $this->token
 %value $this->value
 %line $this->line
+%column $this->column
 variable = @/?:([a-zA-Z0-9_]+)/?@
 */
 /*!lex2php

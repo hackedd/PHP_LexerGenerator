@@ -6,6 +6,7 @@ class blah {
 %token $this->token
 %value $this->value
 %line $this->line
+%column $this->column
 DELIMA = /[a-z_\x7f-\xff]/
 */
 /*!lex2php

@@ -4,6 +4,7 @@ class UnitTestCommentsParser
     private $_counter;
     private $_data;
     private $line;
+    private $column;
     private $state = 1;
     public $token;
     public $value;
@@ -23,6 +24,7 @@ class UnitTestCommentsParser
 %counter $this->_counter
 %input $this->_data
 %line $this->line
+%column $this->column
 %token $this->token
 %value $this->value
 %caseinsensitive 1

@@ -8,6 +8,7 @@ class UnitTestExceptionParser
     private $_counter;
     private $_data;
     private $line;
+    private $column;
     private $state = 1;
 
     public $token;
@@ -27,6 +28,7 @@ class UnitTestExceptionParser
 %counter $this->_counter
 %input $this->_data
 %line $this->line
+%column $this->column
 %token $this->token
 %value $this->value
 %exception CustomLexerException

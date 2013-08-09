@@ -6,6 +6,7 @@ class blah {
 %token $this->token
 %value $this->value
 %line $this->line
+%column $this->column
 NULL_A = /\000/
 NULL_B = /\x00/
 TEST = /(hi)\01/

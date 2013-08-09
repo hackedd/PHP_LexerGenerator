@@ -34,6 +34,7 @@ class TestRegexLexer
     public $token;
     public $value;
     public $line;
+    public $column;
 
     function __construct($data)
     {
@@ -56,6 +57,7 @@ class TestRegexLexer
 %token {$this->token}
 %value {$this->value}
 %line {$this->line}
+%column {$this->column}
 NONESCAPE = /[^[\\^$.|()?*+{}]+/
 NONESCAPECHARCLASS = /[^\-\\]/
 ESCAPEDTHING = /\\[][{}*.^$|?()+]/

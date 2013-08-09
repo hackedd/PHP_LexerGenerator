@@ -11,6 +11,7 @@ class Bug11808Lexer
     public $token;
     public $value;
     private $line;
+    private $column;
     private $input;
     public $state = 1;
 
@@ -28,7 +29,8 @@ class Bug11808Lexer
 %input {$this->input}
 %token {$this->token}
 %value {$this->value}
-%line {$this->line}    
+%line {$this->line}
+%column {$this->column}
 WHITESPACE = /[ \t\n]/
 WORD = /[a-zA-Z]+/
 FLOAT = /[+-]?([0-9]+\.[0-9]+|\.[0-9]+|[0-9]+\.)/

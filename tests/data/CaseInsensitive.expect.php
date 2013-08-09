@@ -4,6 +4,7 @@ class UnitTestCaseInsensitiveParser
     private $_counter;
     private $_data;
     private $line;
+    private $column;
     private $state = 1;
     public $token;
     public $value;
@@ -82,6 +83,12 @@ class UnitTestCaseInsensitiveParser
                 if ($r === null) {
                     $this->_counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->_counter;
+                    } else {
+                        $this->column = $this->_counter - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -91,6 +98,12 @@ class UnitTestCaseInsensitiveParser
                 } elseif ($r === false) {
                     $this->_counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->_counter;
+                    } else {
+                        $this->column = $this->_counter - $newline - 1;
+                    }
                     if ($this->_counter >= strlen($this->_data)) {
                         return false; // end of input
                     }
@@ -118,6 +131,12 @@ class UnitTestCaseInsensitiveParser
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->_counter;
+                            } else {
+                                $this->column = $this->_counter - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -135,6 +154,12 @@ class UnitTestCaseInsensitiveParser
                     } elseif ($r === false) {
                         $this->_counter += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->_counter;
+                        } else {
+                            $this->column = $this->_counter - $newline - 1;
+                        }
                         if ($this->_counter >= strlen($this->_data)) {
                             return false; // end of input
                         }
@@ -144,12 +169,18 @@ class UnitTestCaseInsensitiveParser
                         // accept
                         $this->_counter += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->_counter;
+                        } else {
+                            $this->column = $this->_counter - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->_data[$this->_counter]);
+                throw new Exception('Unexpected input "' . $this->_data[$this->_counter] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);

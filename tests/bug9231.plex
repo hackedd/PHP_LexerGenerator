@@ -6,6 +6,7 @@ class blah {
 %token $this->token
 %value $this->value
 %line $this->line
+%column $this->column
 T_INLINE_HTML = /(\s|.)+?(?=<[?%])/
 */
 /*!lex2php

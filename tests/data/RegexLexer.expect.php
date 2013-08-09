@@ -34,6 +34,7 @@ class TestRegexLexer
     public $token;
     public $value;
     public $line;
+    public $column;
 
     function __construct($data)
     {
@@ -132,6 +133,12 @@ class TestRegexLexer
                 if ($r === null) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -141,6 +148,12 @@ class TestRegexLexer
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -187,6 +200,12 @@ class TestRegexLexer
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->N;
+                            } else {
+                                $this->column = $this->N - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -204,6 +223,12 @@ class TestRegexLexer
                     } elseif ($r === false) {
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         if ($this->N >= strlen($this->input)) {
                             return false; // end of input
                         }
@@ -213,12 +238,18 @@ class TestRegexLexer
                         // accept
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->N]);
+                throw new Exception('Unexpected input "' . $this->input[$this->N] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);
@@ -382,6 +413,12 @@ class TestRegexLexer
                 if ($r === null) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -391,6 +428,12 @@ class TestRegexLexer
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -417,6 +460,12 @@ class TestRegexLexer
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->N;
+                            } else {
+                                $this->column = $this->N - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -434,6 +483,12 @@ class TestRegexLexer
                     } elseif ($r === false) {
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         if ($this->N >= strlen($this->input)) {
                             return false; // end of input
                         }
@@ -443,12 +498,18 @@ class TestRegexLexer
                         // accept
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->N]);
+                throw new Exception('Unexpected input "' . $this->input[$this->N] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);
@@ -519,6 +580,12 @@ class TestRegexLexer
                 if ($r === null) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -528,6 +595,12 @@ class TestRegexLexer
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -562,6 +635,12 @@ class TestRegexLexer
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->N;
+                            } else {
+                                $this->column = $this->N - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -579,6 +658,12 @@ class TestRegexLexer
                     } elseif ($r === false) {
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         if ($this->N >= strlen($this->input)) {
                             return false; // end of input
                         }
@@ -588,12 +673,18 @@ class TestRegexLexer
                         // accept
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->N]);
+                throw new Exception('Unexpected input "' . $this->input[$this->N] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);
@@ -700,6 +791,12 @@ class TestRegexLexer
                 if ($r === null) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -709,6 +806,12 @@ class TestRegexLexer
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -739,6 +842,12 @@ class TestRegexLexer
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->N;
+                            } else {
+                                $this->column = $this->N - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -756,6 +865,12 @@ class TestRegexLexer
                     } elseif ($r === false) {
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         if ($this->N >= strlen($this->input)) {
                             return false; // end of input
                         }
@@ -765,12 +880,18 @@ class TestRegexLexer
                         // accept
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->N]);
+                throw new Exception('Unexpected input "' . $this->input[$this->N] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);
@@ -864,6 +985,12 @@ class TestRegexLexer
                 if ($r === null) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -873,6 +1000,12 @@ class TestRegexLexer
                 } elseif ($r === false) {
                     $this->N += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
+                    $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                    if ($newline === FALSE) {
+                        $this->column = $this->N;
+                    } else {
+                        $this->column = $this->N - $newline - 1;
+                    }
                     if ($this->N >= strlen($this->input)) {
                         return false; // end of input
                     }
@@ -909,6 +1042,12 @@ class TestRegexLexer
                             $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
                             $this->value = current($yymatches); // token value
                             $this->line = substr_count($this->value, "\n");
+                            $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                            if ($newline === FALSE) {
+                                $this->column = $this->N;
+                            } else {
+                                $this->column = $this->N - $newline - 1;
+                            }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, $this->token + 1,
@@ -926,6 +1065,12 @@ class TestRegexLexer
                     } elseif ($r === false) {
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         if ($this->N >= strlen($this->input)) {
                             return false; // end of input
                         }
@@ -935,12 +1080,18 @@ class TestRegexLexer
                         // accept
                         $this->N += strlen($this->value);
                         $this->line += substr_count($this->value, "\n");
+                        $newline = strrpos(substr($this->input, 0, $this->N), "\n");
+                        if ($newline === FALSE) {
+                            $this->column = $this->N;
+                        } else {
+                            $this->column = $this->N - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
-                    ': ' . $this->input[$this->N]);
+                throw new Exception('Unexpected input "' . $this->input[$this->N] . '" at line ' .
+                    $this->line . ', column ' . ($this->column + 1));
             }
             break;
         } while (true);

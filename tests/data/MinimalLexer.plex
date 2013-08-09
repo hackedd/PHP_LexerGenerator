@@ -3,6 +3,7 @@ class UnitTestMinimalLexer
     private $_counter;
     private $_data;
     private $line;
+    private $column;
     private $state = 1;
     public $token;
     public $value;
@@ -12,7 +13,7 @@ class UnitTestMinimalLexer
         $this -> _counter = 0;
         $this -> line = 1;
     }
-    
+
     function getState() {
         return $this -> state;
     }
@@ -21,6 +22,7 @@ class UnitTestMinimalLexer
 %counter $this->_counter
 %input $this->_data
 %line $this->line
+%column $this->column
 %token $this->token
 %value $this->value
 */
