@@ -260,5 +260,29 @@ class LexerGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->setExpectedException("CustomLexerException");
         $this->runLexerTestCore('Exception', 'test 123', '');
     }
+
+    /**
+     * Test the values of the line and column properties, using a parser that
+     * outputs the location for each token scanned.
+     */
+    public function testLineAndColumnTracking() {
+        $diffFile = $this->dataPath . 'Position.diff';
+        if ($this->runCodeTestCore(
+            $this->dataPath . 'Position.plex',
+            $this->dataPath . 'Position.php',
+            $this->dataPath . 'Position.expect.php',
+            $diffFile
+        )) {
+            @unlink($diffFile);
+        } else {
+            $this->fail('Output mismatch. See ' . $diffFile . ' for details.');
+        }
+
+        $this->runLexerTestCore(
+            'Position',
+            "test test\ntest\ntest test",
+            "1 1\n1 6\n2 1\n3 1\n3 6\n"
+        );
+    }
 }
 ?>

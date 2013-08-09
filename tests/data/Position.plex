@@ -1,0 +1,43 @@
+<?php
+
+class UnitTestPositionParser
+{
+    private $_counter;
+    private $_data;
+    private $line;
+    private $column;
+    private $state = 1;
+
+    public $token;
+    public $value;
+
+    function __construct($data) {
+        $this->_data = $data;
+        $this->_counter = 0;
+        $this->line = 1;
+        $this->column = 1;
+    }
+
+    function getState() {
+        return $this->state;
+    }
+
+/*!lex2php
+%counter $this->_counter
+%input $this->_data
+%line $this->line
+%column $this->column
+%token $this->token
+%value $this->value
+%exception CustomLexerException
+WHITESPACE = /[ \t\n]/
+WORD = /[a-zA-Z]+/
+*/
+
+/*!lex2php
+%statename START
+WHITESPACE { return false; }
+WORD { printf("%d %d\n", $this->line, $this->column); }
+*/
+
+}

@@ -3,3 +3,4 @@ RegexLexer.php
 SingleQuote.php
 Unicode.php
 CaseInsensitive.php
+Position.php
