@@ -7,10 +7,10 @@ State 0:
           declare ::= * COMMENTSTART declarations COMMENTEND
 
                        PHPCODE shift  17
-                  COMMENTSTART shift  8
+                  COMMENTSTART shift  7
                          start accept
-                       lexfile shift  52
-                       declare shift  6
+                       lexfile shift  56
+                       declare shift  5
 
 State 1:
           rules ::= reset_rules * rule COMMENTEND
@@ -20,14 +20,17 @@ State 1:
           rule ::= * rule_subpattern CODE
           rule ::= * rule rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
                             PI shift  29
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
-                          rule shift  12
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
+                          rule shift  13
                rule_subpattern shift  18
 
 State 2:
@@ -38,13 +41,16 @@ State 2:
           rule ::= * rule_subpattern CODE
           rule ::= * rule rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
-                            PI shift  34
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
+                            PI shift  31
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
                           rule shift  11
                rule_subpattern shift  18
 
@@ -54,49 +60,37 @@ State 3:
           rule ::= * rule_subpattern CODE
           rule ::= * rule rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
                           rule shift  10
                rule_subpattern shift  18
 
 State 4:
-          lexfile ::= PHPCODE declare * rules
-          lexfile ::= PHPCODE declare * PHPCODE rules
-          rules ::= * COMMENTSTART rule COMMENTEND
-          rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND
-          rules ::= * COMMENTSTART rule COMMENTEND PHPCODE
-          rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND PHPCODE
-          rules ::= * reset_rules rule COMMENTEND
-          rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND
-          rules ::= * reset_rules rule COMMENTEND PHPCODE
-          rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND PHPCODE
-          reset_rules ::= * rules COMMENTSTART
-
-                       PHPCODE shift  7
-                  COMMENTSTART shift  2
-                         rules shift  25
-                   reset_rules shift  1
-
-State 5:
           rules ::= reset_rules PI SUBPATTERN * rule COMMENTEND
           rules ::= reset_rules PI SUBPATTERN * rule COMMENTEND PHPCODE
           rule ::= * rule_subpattern CODE
           rule ::= * rule rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
-                          rule shift  13
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
+                          rule shift  12
                rule_subpattern shift  18
 
-State 6:
+State 5:
           lexfile ::= declare * rules
           lexfile ::= declare * PHPCODE rules
           rules ::= * COMMENTSTART rule COMMENTEND
@@ -109,13 +103,14 @@ State 6:
           rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND PHPCODE
           reset_rules ::= * rules COMMENTSTART
 
-                       PHPCODE shift  9
+                       PHPCODE shift  8
                   COMMENTSTART shift  2
                          rules shift  33
                    reset_rules shift  1
 
-State 7:
-          lexfile ::= PHPCODE declare PHPCODE * rules
+State 6:
+          lexfile ::= PHPCODE declare * rules
+          lexfile ::= PHPCODE declare * PHPCODE rules
           rules ::= * COMMENTSTART rule COMMENTEND
           rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND
           rules ::= * COMMENTSTART rule COMMENTEND PHPCODE
@@ -126,11 +121,12 @@ State 7:
           rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND PHPCODE
           reset_rules ::= * rules COMMENTSTART
 
+                       PHPCODE shift  9
                   COMMENTSTART shift  2
                          rules shift  27
                    reset_rules shift  1
 
-State 8:
+State 7:
           declare ::= COMMENTSTART * declarations COMMENTEND
           declarations ::= * processing_instructions pattern_declarations
           processing_instructions ::= * PI SUBPATTERN
@@ -139,10 +135,10 @@ State 8:
           processing_instructions ::= * processing_instructions PI CODE
 
                             PI shift  23
-                  declarations shift  28
-       processing_instructions shift  14
+                  declarations shift  24
+       processing_instructions shift  16
 
-State 9:
+State 8:
           lexfile ::= declare PHPCODE * rules
           rules ::= * COMMENTSTART rule COMMENTEND
           rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND
@@ -155,7 +151,23 @@ State 9:
           reset_rules ::= * rules COMMENTSTART
 
                   COMMENTSTART shift  2
-                         rules shift  31
+                         rules shift  34
+                   reset_rules shift  1
+
+State 9:
+          lexfile ::= PHPCODE declare PHPCODE * rules
+          rules ::= * COMMENTSTART rule COMMENTEND
+          rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND
+          rules ::= * COMMENTSTART rule COMMENTEND PHPCODE
+          rules ::= * COMMENTSTART PI SUBPATTERN rule COMMENTEND PHPCODE
+          rules ::= * reset_rules rule COMMENTEND
+          rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND
+          rules ::= * reset_rules rule COMMENTEND PHPCODE
+          rules ::= * reset_rules PI SUBPATTERN rule COMMENTEND PHPCODE
+          reset_rules ::= * rules COMMENTSTART
+
+                  COMMENTSTART shift  2
+                         rules shift  28
                    reset_rules shift  1
 
 State 10:
@@ -163,13 +175,16 @@ State 10:
           rules ::= COMMENTSTART PI SUBPATTERN rule * COMMENTEND PHPCODE
           rule ::= rule * rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
                     COMMENTEND shift  30
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
                rule_subpattern shift  19
 
 State 11:
@@ -177,147 +192,168 @@ State 11:
           rules ::= COMMENTSTART rule * COMMENTEND PHPCODE
           rule ::= rule * rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
                     COMMENTEND shift  32
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
                rule_subpattern shift  19
 
 State 12:
-          rules ::= reset_rules rule * COMMENTEND
-          rules ::= reset_rules rule * COMMENTEND PHPCODE
-          rule ::= rule * rule_subpattern CODE
-          rule_subpattern ::= * QUOTE
-          rule_subpattern ::= * SUBPATTERN
-          rule_subpattern ::= * rule_subpattern QUOTE
-          rule_subpattern ::= * rule_subpattern SUBPATTERN
-
-                    COMMENTEND shift  35
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
-               rule_subpattern shift  19
-
-State 13:
           rules ::= reset_rules PI SUBPATTERN rule * COMMENTEND
           rules ::= reset_rules PI SUBPATTERN rule * COMMENTEND PHPCODE
           rule ::= rule * rule_subpattern CODE
           rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
           rule_subpattern ::= * SUBPATTERN
           rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
           rule_subpattern ::= * rule_subpattern SUBPATTERN
 
-                    COMMENTEND shift  24
-                    SUBPATTERN shift  50
-                         QUOTE shift  51
+                    COMMENTEND shift  25
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
+               rule_subpattern shift  19
+
+State 13:
+          rules ::= reset_rules rule * COMMENTEND
+          rules ::= reset_rules rule * COMMENTEND PHPCODE
+          rule ::= rule * rule_subpattern CODE
+          rule_subpattern ::= * QUOTE
+          rule_subpattern ::= * SINGLEQUOTE
+          rule_subpattern ::= * SUBPATTERN
+          rule_subpattern ::= * rule_subpattern QUOTE
+          rule_subpattern ::= * rule_subpattern SINGLEQUOTE
+          rule_subpattern ::= * rule_subpattern SUBPATTERN
+
+                    COMMENTEND shift  35
+                    SUBPATTERN shift  49
+                         QUOTE shift  54
+                   SINGLEQUOTE shift  53
                rule_subpattern shift  19
 
 State 14:
+          pattern_declarations ::= PATTERN * subpattern
+          subpattern ::= * QUOTE
+          subpattern ::= * SINGLEQUOTE
+          subpattern ::= * SUBPATTERN
+          subpattern ::= * subpattern QUOTE
+          subpattern ::= * subpattern SINGLEQUOTE
+          subpattern ::= * subpattern SUBPATTERN
+
+                    SUBPATTERN shift  39
+                         QUOTE shift  37
+                   SINGLEQUOTE shift  36
+                    subpattern shift  20
+
+State 15:
+          pattern_declarations ::= pattern_declarations PATTERN * subpattern
+          subpattern ::= * QUOTE
+          subpattern ::= * SINGLEQUOTE
+          subpattern ::= * SUBPATTERN
+          subpattern ::= * subpattern QUOTE
+          subpattern ::= * subpattern SINGLEQUOTE
+          subpattern ::= * subpattern SUBPATTERN
+
+                    SUBPATTERN shift  39
+                         QUOTE shift  37
+                   SINGLEQUOTE shift  36
+                    subpattern shift  21
+
+State 16:
           declarations ::= processing_instructions * pattern_declarations
           processing_instructions ::= processing_instructions * PI SUBPATTERN
           processing_instructions ::= processing_instructions * PI CODE
           pattern_declarations ::= * PATTERN subpattern
           pattern_declarations ::= * pattern_declarations PATTERN subpattern
 
-                            PI shift  20
-                       PATTERN shift  16
+                            PI shift  22
+                       PATTERN shift  14
           pattern_declarations shift  26
-
-State 15:
-          pattern_declarations ::= pattern_declarations PATTERN * subpattern
-          subpattern ::= * QUOTE
-          subpattern ::= * SUBPATTERN
-          subpattern ::= * subpattern QUOTE
-          subpattern ::= * subpattern SUBPATTERN
-
-                    SUBPATTERN shift  36
-                         QUOTE shift  37
-                    subpattern shift  21
-
-State 16:
-          pattern_declarations ::= PATTERN * subpattern
-          subpattern ::= * QUOTE
-          subpattern ::= * SUBPATTERN
-          subpattern ::= * subpattern QUOTE
-          subpattern ::= * subpattern SUBPATTERN
-
-                    SUBPATTERN shift  36
-                         QUOTE shift  37
-                    subpattern shift  22
 
 State 17:
           lexfile ::= PHPCODE * declare rules
           lexfile ::= PHPCODE * declare PHPCODE rules
           declare ::= * COMMENTSTART declarations COMMENTEND
 
-                  COMMENTSTART shift  8
-                       declare shift  4
+                  COMMENTSTART shift  7
+                       declare shift  6
 
 State 18:
           rule ::= rule_subpattern * CODE
           rule_subpattern ::= rule_subpattern * QUOTE
+          rule_subpattern ::= rule_subpattern * SINGLEQUOTE
           rule_subpattern ::= rule_subpattern * SUBPATTERN
 
-                    SUBPATTERN shift  54
-                          CODE shift  47
-                         QUOTE shift  53
+                    SUBPATTERN shift  59
+                          CODE shift  51
+                         QUOTE shift  55
+                   SINGLEQUOTE shift  57
 
 State 19:
           rule ::= rule rule_subpattern * CODE
           rule_subpattern ::= rule_subpattern * QUOTE
+          rule_subpattern ::= rule_subpattern * SINGLEQUOTE
           rule_subpattern ::= rule_subpattern * SUBPATTERN
 
-                    SUBPATTERN shift  54
-                          CODE shift  45
-                         QUOTE shift  53
+                    SUBPATTERN shift  59
+                          CODE shift  47
+                         QUOTE shift  55
+                   SINGLEQUOTE shift  57
 
 State 20:
-          processing_instructions ::= processing_instructions PI * SUBPATTERN
-          processing_instructions ::= processing_instructions PI * CODE
+     (11) pattern_declarations ::= PATTERN subpattern *
+          subpattern ::= subpattern * QUOTE
+          subpattern ::= subpattern * SINGLEQUOTE
+          subpattern ::= subpattern * SUBPATTERN
 
-                    SUBPATTERN shift  44
-                          CODE shift  40
+                    SUBPATTERN shift  38
+                         QUOTE shift  43
+                   SINGLEQUOTE shift  40
+                     {default} reduce 11
 
 State 21:
      (12) pattern_declarations ::= pattern_declarations PATTERN subpattern *
           subpattern ::= subpattern * QUOTE
+          subpattern ::= subpattern * SINGLEQUOTE
           subpattern ::= subpattern * SUBPATTERN
 
                     SUBPATTERN shift  38
-                         QUOTE shift  41
+                         QUOTE shift  43
+                   SINGLEQUOTE shift  40
                      {default} reduce 12
 
 State 22:
-     (11) pattern_declarations ::= PATTERN subpattern *
-          subpattern ::= subpattern * QUOTE
-          subpattern ::= subpattern * SUBPATTERN
+          processing_instructions ::= processing_instructions PI * SUBPATTERN
+          processing_instructions ::= processing_instructions PI * CODE
 
-                    SUBPATTERN shift  38
-                         QUOTE shift  41
-                     {default} reduce 11
+                    SUBPATTERN shift  41
+                          CODE shift  44
 
 State 23:
           processing_instructions ::= PI * SUBPATTERN
           processing_instructions ::= PI * CODE
 
                     SUBPATTERN shift  42
-                          CODE shift  39
+                          CODE shift  46
 
 State 24:
+          declare ::= COMMENTSTART declarations * COMMENTEND
+
+                    COMMENTEND shift  58
+
+State 25:
      (18) rules ::= reset_rules PI SUBPATTERN rule COMMENTEND *
           rules ::= reset_rules PI SUBPATTERN rule COMMENTEND * PHPCODE
 
-                       PHPCODE shift  48
+                       PHPCODE shift  50
                      {default} reduce 18
-
-State 25:
-      (3) lexfile ::= PHPCODE declare rules *
-          reset_rules ::= rules * COMMENTSTART
-
-                  COMMENTSTART shift  43
-                     {default} reduce 3
 
 State 26:
       (6) declarations ::= processing_instructions pattern_declarations *
@@ -327,93 +363,95 @@ State 26:
                      {default} reduce 6
 
 State 27:
+      (3) lexfile ::= PHPCODE declare rules *
+          reset_rules ::= rules * COMMENTSTART
+
+                  COMMENTSTART shift  45
+                     {default} reduce 3
+
+State 28:
       (4) lexfile ::= PHPCODE declare PHPCODE rules *
           reset_rules ::= rules * COMMENTSTART
 
-                  COMMENTSTART shift  43
+                  COMMENTSTART shift  45
                      {default} reduce 4
-
-State 28:
-          declare ::= COMMENTSTART declarations * COMMENTEND
-
-                    COMMENTEND shift  55
 
 State 29:
           rules ::= reset_rules PI * SUBPATTERN rule COMMENTEND
           rules ::= reset_rules PI * SUBPATTERN rule COMMENTEND PHPCODE
 
-                    SUBPATTERN shift  5
+                    SUBPATTERN shift  4
 
 State 30:
      (14) rules ::= COMMENTSTART PI SUBPATTERN rule COMMENTEND *
           rules ::= COMMENTSTART PI SUBPATTERN rule COMMENTEND * PHPCODE
 
-                       PHPCODE shift  46
+                       PHPCODE shift  48
                      {default} reduce 14
 
 State 31:
-      (2) lexfile ::= declare PHPCODE rules *
-          reset_rules ::= rules * COMMENTSTART
+          rules ::= COMMENTSTART PI * SUBPATTERN rule COMMENTEND
+          rules ::= COMMENTSTART PI * SUBPATTERN rule COMMENTEND PHPCODE
 
-                  COMMENTSTART shift  43
-                     {default} reduce 2
+                    SUBPATTERN shift  3
 
 State 32:
      (13) rules ::= COMMENTSTART rule COMMENTEND *
           rules ::= COMMENTSTART rule COMMENTEND * PHPCODE
 
-                       PHPCODE shift  56
+                       PHPCODE shift  60
                      {default} reduce 13
 
 State 33:
       (1) lexfile ::= declare rules *
           reset_rules ::= rules * COMMENTSTART
 
-                  COMMENTSTART shift  43
+                  COMMENTSTART shift  45
                      {default} reduce 1
 
 State 34:
-          rules ::= COMMENTSTART PI * SUBPATTERN rule COMMENTEND
-          rules ::= COMMENTSTART PI * SUBPATTERN rule COMMENTEND PHPCODE
+      (2) lexfile ::= declare PHPCODE rules *
+          reset_rules ::= rules * COMMENTSTART
 
-                    SUBPATTERN shift  3
+                  COMMENTSTART shift  45
+                     {default} reduce 2
 
 State 35:
      (17) rules ::= reset_rules rule COMMENTEND *
           rules ::= reset_rules rule COMMENTEND * PHPCODE
 
-                       PHPCODE shift  49
+                       PHPCODE shift  52
                      {default} reduce 17
 
 State 36:
-     (29) subpattern ::= SUBPATTERN *
-
-                     {default} reduce 29
-
-State 37:
-     (28) subpattern ::= QUOTE *
-
-                     {default} reduce 28
-
-State 38:
-     (31) subpattern ::= subpattern SUBPATTERN *
+     (31) subpattern ::= SINGLEQUOTE *
 
                      {default} reduce 31
 
-State 39:
-      (8) processing_instructions ::= PI CODE *
-
-                     {default} reduce 8
-
-State 40:
-     (10) processing_instructions ::= processing_instructions PI CODE *
-
-                     {default} reduce 10
-
-State 41:
-     (30) subpattern ::= subpattern QUOTE *
+State 37:
+     (30) subpattern ::= QUOTE *
 
                      {default} reduce 30
+
+State 38:
+     (35) subpattern ::= subpattern SUBPATTERN *
+
+                     {default} reduce 35
+
+State 39:
+     (32) subpattern ::= SUBPATTERN *
+
+                     {default} reduce 32
+
+State 40:
+     (34) subpattern ::= subpattern SINGLEQUOTE *
+
+                     {default} reduce 34
+
+State 41:
+      (9) processing_instructions ::= processing_instructions PI SUBPATTERN *
+
+                     {default} reduce 9
 
 State 42:
       (7) processing_instructions ::= PI SUBPATTERN *
@@ -421,71 +459,91 @@ State 42:
                      {default} reduce 7
 
 State 43:
+     (33) subpattern ::= subpattern QUOTE *
+
+                     {default} reduce 33
+
+State 44:
+     (10) processing_instructions ::= processing_instructions PI CODE *
+
+                     {default} reduce 10
+
+State 45:
      (21) reset_rules ::= rules COMMENTSTART *
 
                      {default} reduce 21
 
-State 44:
-      (9) processing_instructions ::= processing_instructions PI SUBPATTERN *
+State 46:
+      (8) processing_instructions ::= PI CODE *
 
-                     {default} reduce 9
+                     {default} reduce 8
 
-State 45:
+State 47:
      (23) rule ::= rule rule_subpattern CODE *
 
                      {default} reduce 23
 
-State 46:
+State 48:
      (16) rules ::= COMMENTSTART PI SUBPATTERN rule COMMENTEND PHPCODE *
 
                      {default} reduce 16
 
-State 47:
-     (22) rule ::= rule_subpattern CODE *
+State 49:
+     (26) rule_subpattern ::= SUBPATTERN *
 
-                     {default} reduce 22
+                     {default} reduce 26
 
-State 48:
+State 50:
      (20) rules ::= reset_rules PI SUBPATTERN rule COMMENTEND PHPCODE *
 
                      {default} reduce 20
 
-State 49:
+State 51:
+     (22) rule ::= rule_subpattern CODE *
+
+                     {default} reduce 22
+
+State 52:
      (19) rules ::= reset_rules rule COMMENTEND PHPCODE *
 
                      {default} reduce 19
 
-State 50:
-     (25) rule_subpattern ::= SUBPATTERN *
+State 53:
+     (25) rule_subpattern ::= SINGLEQUOTE *
 
                      {default} reduce 25
 
-State 51:
+State 54:
      (24) rule_subpattern ::= QUOTE *
 
                      {default} reduce 24
 
-State 52:
+State 55:
+     (27) rule_subpattern ::= rule_subpattern QUOTE *
+
+                     {default} reduce 27
+
+State 56:
       (0) start ::= lexfile *
 
                      {default} reduce 0
 
-State 53:
-     (26) rule_subpattern ::= rule_subpattern QUOTE *
+State 57:
+     (28) rule_subpattern ::= rule_subpattern SINGLEQUOTE *
 
-                     {default} reduce 26
+                     {default} reduce 28
 
-State 54:
-     (27) rule_subpattern ::= rule_subpattern SUBPATTERN *
-
-                     {default} reduce 27
-
-State 55:
+State 58:
       (5) declare ::= COMMENTSTART declarations COMMENTEND *
 
                      {default} reduce 5
 
-State 56:
+State 59:
+     (29) rule_subpattern ::= rule_subpattern SUBPATTERN *
+
+                     {default} reduce 29
+
+State 60:
      (15) rules ::= COMMENTSTART rule COMMENTEND PHPCODE *
 
                      {default} reduce 15
