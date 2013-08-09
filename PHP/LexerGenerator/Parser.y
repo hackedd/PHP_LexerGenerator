@@ -89,6 +89,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
     private $value;
     private $line;
     private $exception = 'Exception';
+    private $column;
     private $matchlongest;
     private $_regexLexer;
     private $_regexParser;
@@ -149,8 +150,8 @@ require_once 'PHP/LexerGenerator/Exception.php';
                 }
             }
             if (!$match) {
-                throw new ' . $this->exception . '(\'Unexpected input at line \' . ' . $this->line . ' .
-                    \': \' . ' . $this->input . '[' . $this->counter . ']);
+                throw new ' . $this->exception . '(\'Unexpected input "\' . ' . $this->input . '[' . $this->counter . '] . \'" at line \' .
+                    ' . $this->line . ' . \', column \' . (' . $this->column . ' + 1));
             }
             ' . $this->token . ' = $match[1];
             ' . $this->value . ' = $match[0][0];
@@ -163,6 +164,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
             if ($r === null) {
                 ' . $this->counter . ' += strlen(' . $this->value . ');
                 ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                if ($newline === FALSE) {
+                    ' . $this->column . ' = ' . $this->counter . ';
+                } else {
+                    ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                }
                 // accept this token
                 return true;
             } elseif ($r === true) {
@@ -172,6 +179,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
             } elseif ($r === false) {
                 ' . $this->counter . ' += strlen(' . $this->value . ');
                 ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                if ($newline === FALSE) {
+                    ' . $this->column . ' = ' . $this->counter . ';
+                } else {
+                    ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                }
                 if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
                     return false; // end of input
                 }
@@ -183,7 +196,7 @@ require_once 'PHP/LexerGenerator/Exception.php';
                 // yymore is needed
                 do {
                     if (!isset($yy_yymore_patterns[' . $this->token . '])) {
-	                    throw new ' . $this->exception . '(\'cannot do yymore for the last token\');
+                        throw new ' . $this->exception . '(\'cannot do yymore for the last token\');
                     }
                     $match = false;
                     foreach ($yy_yymore_patterns[' . $this->token . '] as $index => $rule) {
@@ -200,8 +213,8 @@ require_once 'PHP/LexerGenerator/Exception.php';
                         }
                     }
                     if (!$match) {
-                        throw new ' . $this->exception . '(\'Unexpected input at line \' . ' . $this->line . ' .
-                            \': \' . ' . $this->input . '[' . $this->counter . ']);
+                        throw new ' . $this->exception . '(\'Unexpected input "\' . ' . $this->input . '[' . $this->counter . '] . \'" at line \' .
+                            ' . $this->line . ' . \', column \' . (' . $this->column . ' + 1));
                     }
                     ' . $this->token . ' = $match[1];
                     ' . $this->value . ' = $match[0][0];
@@ -211,6 +224,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                         $yysubmatches = array();
                     }
                     ' . $this->line . ' = substr_count(' . $this->value . ', "\n");
+                    $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                    if ($newline === FALSE) {
+                        ' . $this->column . ' = ' . $this->counter . ';
+                    } else {
+                        ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                    }
                     $r = $this->{\'yy_r' . $ruleindex . '_\' . ' . $this->token . '}();
                 } while ($r !== null || !$r);
                 if ($r === true) {
@@ -221,6 +240,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                     // accept
                     ' . $this->counter . ' += strlen(' . $this->value . ');
                     ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                    $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                    if ($newline === FALSE) {
+                        ' . $this->column . ' = ' . $this->counter . ';
+                    } else {
+                        ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                    }
                     return true;
                 }
             }
@@ -284,6 +309,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                 if ($r === null) {
                     ' . $this->counter . ' += strlen(' . $this->value . ');
                     ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                    $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                    if ($newline === FALSE) {
+                        ' . $this->column . ' = ' . $this->counter . ';
+                    } else {
+                        ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                    }
                     // accept this token
                     return true;
                 } elseif ($r === true) {
@@ -293,6 +324,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                 } elseif ($r === false) {
                     ' . $this->counter . ' += strlen(' . $this->value . ');
                     ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                    $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                    if ($newline === FALSE) {
+                        ' . $this->column . ' = ' . $this->counter . ';
+                    } else {
+                        ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                    }
                     if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
                         return false; // end of input
                     }
@@ -325,6 +362,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                             ' . $this->token . ' += key($yymatches) + $yy_yymore_patterns[' . $this->token . '][0]; // token number
                             ' . $this->value . ' = current($yymatches); // token value
                             ' . $this->line . ' = substr_count(' . $this->value . ', "\n");
+                            $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                            if ($newline === FALSE) {
+                                ' . $this->column . ' = ' . $this->counter . ';
+                            } else {
+                                ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                            }
                             if ($tokenMap[' . $this->token . ']) {
                                 // extract sub-patterns for passing to lex function
                                 $yysubmatches = array_slice($yysubmatches, ' . $this->token . ' + 1,
@@ -342,6 +385,12 @@ require_once 'PHP/LexerGenerator/Exception.php';
                     } elseif ($r === false) {
                         ' . $this->counter . ' += strlen(' . $this->value . ');
                         ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                        $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                        if ($newline === FALSE) {
+                            ' . $this->column . ' = ' . $this->counter . ';
+                        } else {
+                            ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                        }
                         if (' . $this->counter . ' >= strlen(' . $this->input . ')) {
                             return false; // end of input
                         }
@@ -351,12 +400,18 @@ require_once 'PHP/LexerGenerator/Exception.php';
                         // accept
                         ' . $this->counter . ' += strlen(' . $this->value . ');
                         ' . $this->line . ' += substr_count(' . $this->value . ', "\n");
+                        $newline = strrpos(substr(' . $this->input . ', 0, ' . $this->counter . '), "\n");
+                        if ($newline === FALSE) {
+                            ' . $this->column . ' = ' . $this->counter . ';
+                        } else {
+                            ' . $this->column . ' = ' . $this->counter . ' - $newline - 1;
+                        }
                         return true;
                     }
                 }
             } else {
-                throw new ' . $this->exception . '(\'Unexpected input at line\' . ' . $this->line . ' .
-                    \': \' . ' . $this->input . '[' . $this->counter . ']);
+                throw new ' . $this->exception . '(\'Unexpected input "\' . ' . $this->input . '[' . $this->counter . '] . \'" at line \' .
+                    ' . $this->line . ' . \', column \' . (' . $this->column . ' + 1));
             }
             break;
         } while (true);
@@ -598,6 +653,7 @@ declarations(A) ::= processing_instructions(B) pattern_declarations(C). {
         'token' => true,
         'value' => true,
         'line' => true,
+        'column' => true,
     );
     foreach (B as $pi) {
         if (isset($expected[$pi['pi']])) {
@@ -616,6 +672,7 @@ declarations(A) ::= processing_instructions(B) pattern_declarations(C). {
         'token' => true,
         'value' => true,
         'line' => true,
+        'column' => true,
         'exception' => true,
         'matchlongest' => true,
         'unicode' => true,
