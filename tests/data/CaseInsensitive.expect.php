@@ -13,6 +13,7 @@ class UnitTestCaseInsensitiveParser
         $this -> _data = $data;
         $this -> _counter = 0;
         $this -> line = 1;
+        $this -> column = 1;
     }
 
     function getState() {
@@ -85,9 +86,9 @@ class UnitTestCaseInsensitiveParser
                     $this->line += substr_count($this->value, "\n");
                     $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
                     if ($newline === FALSE) {
-                        $this->column = $this->_counter;
+                        $this->column = $this->_counter + 1;
                     } else {
-                        $this->column = $this->_counter - $newline - 1;
+                        $this->column = $this->_counter - $newline;
                     }
                     // accept this token
                     return true;
@@ -100,9 +101,9 @@ class UnitTestCaseInsensitiveParser
                     $this->line += substr_count($this->value, "\n");
                     $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
                     if ($newline === FALSE) {
-                        $this->column = $this->_counter;
+                        $this->column = $this->_counter + 1;
                     } else {
-                        $this->column = $this->_counter - $newline - 1;
+                        $this->column = $this->_counter - $newline;
                     }
                     if ($this->_counter >= strlen($this->_data)) {
                         return false; // end of input
@@ -133,9 +134,9 @@ class UnitTestCaseInsensitiveParser
                             $this->line = substr_count($this->value, "\n");
                             $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
                             if ($newline === FALSE) {
-                                $this->column = $this->_counter;
+                                $this->column = $this->_counter + 1;
                             } else {
-                                $this->column = $this->_counter - $newline - 1;
+                                $this->column = $this->_counter - $newline;
                             }
                             if ($tokenMap[$this->token]) {
                                 // extract sub-patterns for passing to lex function
@@ -156,9 +157,9 @@ class UnitTestCaseInsensitiveParser
                         $this->line += substr_count($this->value, "\n");
                         $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
                         if ($newline === FALSE) {
-                            $this->column = $this->_counter;
+                            $this->column = $this->_counter + 1;
                         } else {
-                            $this->column = $this->_counter - $newline - 1;
+                            $this->column = $this->_counter - $newline;
                         }
                         if ($this->_counter >= strlen($this->_data)) {
                             return false; // end of input
@@ -171,9 +172,9 @@ class UnitTestCaseInsensitiveParser
                         $this->line += substr_count($this->value, "\n");
                         $newline = strrpos(substr($this->_data, 0, $this->_counter), "\n");
                         if ($newline === FALSE) {
-                            $this->column = $this->_counter;
+                            $this->column = $this->_counter + 1;
                         } else {
-                            $this->column = $this->_counter - $newline - 1;
+                            $this->column = $this->_counter - $newline;
                         }
                         return true;
                     }
